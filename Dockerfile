@@ -1,8 +1,6 @@
-FROM nginx:alpine
+FROM caddy:alpine
 
-WORKDIR /usr/share/nginx/html
-
-RUN rm -rf ./*
+WORKDIR /srv
 
 COPY . .
 
@@ -10,4 +8,4 @@ RUN mv "Ahnoud Tech Landing.dc.html" index.html
 
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["caddy", "file-server", "--root", "/srv", "--listen", ":80"]
