@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>404 — Ahnoud Tech</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    font-family: 'General Sans', sans-serif;
+    background: #0c0d10;
+    color: #e9e7e1;
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  a { color: inherit; }
+
+  /* top strip */
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 32px;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+  }
+  .top .brand { display: inline-flex; align-items: center; gap: 10px; }
+  .top .brand img { height: 20px; width: auto; display: block; }
+  .top .status {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: rgba(233,231,225,0.45);
+  }
+
+  /* main */
+  .wrap {
+    flex: 1 1 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 48px;
+    padding: 40px 32px 64px;
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  .code {
+    font-weight: 700;
+    font-size: clamp(120px, 22vw, 340px);
+    line-height: 0.82;
+    letter-spacing: -0.03em;
+    color: #e9e7e1;
+    user-select: none;
+  }
+  .code .dim { color: rgba(233,231,225,0.14); }
+
+  .panel { display: flex; flex-direction: column; gap: 28px; max-width: 460px; }
+  .label {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: rgba(233,231,225,0.45);
+  }
+  .panel h1 {
+    font-weight: 600;
+    font-size: clamp(28px, 3vw, 44px);
+    letter-spacing: -0.02em;
+    line-height: 1.08;
+  }
+  .panel p {
+    font-size: 16px;
+    line-height: 1.65;
+    color: rgba(233,231,225,0.6);
+    max-width: 400px;
+  }
+  .links { display: flex; flex-direction: column; margin-top: 4px; }
+  .links a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 4px;
+    border-top: 1px solid rgba(233,231,225,0.12);
+    font-size: 18px;
+    font-weight: 500;
+    text-decoration: none;
+    color: #e9e7e1;
+    background-image: linear-gradient(#e9e7e1, #e9e7e1);
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: 0% 100%;
+    transition: background-size 0.55s cubic-bezier(0.65,0,0.35,1), color 0.3s cubic-bezier(0.65,0,0.35,1) 0.1s, padding-left 0.55s cubic-bezier(0.65,0,0.35,1);
+  }
+  .links a:last-child { border-bottom: 1px solid rgba(233,231,225,0.12); }
+  .links a:hover { background-size: 100% 100%; color: #16171b; padding-left: 20px; }
+  .links a .arrow { font-size: 15px; opacity: 0.5; }
+
+  /* interactive halftone footer strip */
+  .strip {
+    position: relative;
+    flex: none;
+    height: 200px;
+    min-height: 200px;
+    background: #e9e7e1;
+    overflow: hidden;
+    cursor: crosshair;
+  }
+  .strip canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .strip .row {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    padding: 0 32px;
+    pointer-events: none;
+  }
+  .strip .row .mark {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-weight: 700; font-size: 13px; letter-spacing: 0.1em;
+    mix-blend-mode: difference; color: #e9e7e1;
+  }
+  .strip .row .mark img { height: 16px; width: auto; display: block; }
+  .strip .row .note { font-style: italic; font-size: 14px; color: #e9e7e1; mix-blend-mode: difference; }
+
+  @media (max-width: 760px) {
+    .wrap { grid-template-columns: 1fr; gap: 28px; padding: 24px 20px 48px; }
+    .code { font-size: 34vw; }
+    .strip .row .note { display: none; }
+  }
+</style>
+</head>
+<body>
+  <div class="top">
+    <a class="brand" href="/"><img src="images/logo.svg" alt="Ahnoud Tech logo">AHNOUD&nbsp;TECH</a>
+    <span class="status">ERR&nbsp;/&nbsp;PAGE&nbsp;NOT&nbsp;FOUND</span>
+  </div>
+
+  <div class="wrap">
+    <div class="code">4<span class="dim">0</span>4</div>
+    <div class="panel">
+      <span class="label">(&nbsp;LOST&nbsp;THE&nbsp;THREAD&nbsp;)</span>
+      <h1>This page isn't part of the system.</h1>
+      <p>The link may be broken, or the page may have been moved. Everything we build is meant to stay — this one just isn't here.</p>
+      <div class="links">
+        <a href="/"><span>Back to home</span><span class="arrow">↑</span></a>
+        <a href="/#services"><span>Services</span><span class="arrow">↓</span></a>
+        <a href="mailto:hello@ahnoudtech.com"><span>Get in touch</span><span class="arrow">↗</span></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="strip">
+    <canvas id="halftone"></canvas>
+    <div class="row">
+      <span class="mark"><img src="images/logo.svg" alt="Ahnoud Tech logo">AHNOUD&nbsp;TECH</span>
+      <span class="note">『&nbsp;The brand and the build, together.&nbsp;』</span>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var cv = document.getElementById("halftone");
+      var ctx = cv.getContext("2d");
+      var W = 0, H = 0;
+      function resize() { W = cv.width = cv.clientWidth; H = cv.height = cv.clientHeight; }
+      resize();
+      window.addEventListener("resize", resize);
+      var tx = -99999, ty = -99999, mx = -99999, my = -99999;
+      cv.parentElement.addEventListener("mousemove", function (e) {
+        var r = cv.getBoundingClientRect(); tx = e.clientX - r.left; ty = e.clientY - r.top;
+      });
+      cv.parentElement.addEventListener("mouseleave", function () { tx = -99999; ty = -99999; });
+      function loop(t) {
+        requestAnimationFrame(loop);
+        if (cv.clientWidth !== W || cv.clientHeight !== H) resize();
+        if (!W || !H) return;
+        mx += (tx - mx) * 0.035;
+        my += (ty - my) * 0.035;
+        ctx.clearRect(0, 0, W, H);
+        ctx.fillStyle = "#0c0d10";
+        var s = W <= 1024 ? 13 : 26;
+        var T = t * 0.001;
+        for (var y = s / 2; y < H; y += s) {
+          for (var x = s / 2; x < W; x += s) {
+            var n1 = Math.sin(x * 0.0035 + T * 0.5 + Math.sin(y * 0.008 + T * 0.35) * 1.6);
+            var n2 = Math.sin(y * 0.009 - T * 0.28 + Math.sin(x * 0.002 - T * 0.42) * 2.2);
+            var n3 = Math.sin((x + y) * 0.0022 + T * 0.2);
+            var v = 0.5 + 0.5 * (n1 * 0.5 + n2 * 0.35 + n3 * 0.15);
+            v = Math.pow(Math.max(0, v - 0.3) / 0.7, 1.7);
+            var dxc = (x - mx) / 150, dyc = (y - my) / 150;
+            v += 1.1 * Math.exp(-(dxc * dxc + dyc * dyc) * 2);
+            var vv = Math.min(1, v);
+            var ex = 1 - Math.pow(1 - vv, 3);
+            var ey = vv * vv * (3 - 2 * vv);
+            var w = ex * (s - 1), h = ey * (s - 1);
+            if (w > 0.6 && h > 0.6) ctx.fillRect(x - w / 2, y - h / 2, w, h);
+          }
+        }
+      }
+      requestAnimationFrame(loop);
+    })();
+  </script>
+</body>
+</html>

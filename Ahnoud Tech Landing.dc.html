@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,401,500,501,600,601,700&display=swap" rel="stylesheet">
+<style>
+html { scroll-behavior: smooth; }
+body { margin: 0; background: #0c0d10; color: #e9e7e1; -webkit-font-smoothing: antialiased; }
+::selection { background: oklch(0.75 0.12 250 / 0.35); }
+@keyframes ah-rise { from { transform: translateY(110%); } to { transform: translateY(0); } }
+@keyframes ah-fade { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes ah-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes ah-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes ah-menu-open { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes ah-menu-item { from { opacity: 0; transform: scaleX(0.4); } to { opacity: 1; transform: scaleX(1); } }
+@keyframes ah-menu-close { from { transform: scaleY(1); } to { transform: scaleY(0); } }
+@keyframes ah-menu-item-out { from { opacity: 1; transform: scaleX(1); } to { opacity: 0; transform: scaleX(0.4); } }
+image-slot { display: block; width: 100%; height: 100%; }
+/* invert-on-hover: cream fill sweeps in from the left */
+[data-r="svc-row"], footer nav a {
+  background-image: linear-gradient(#e9e7e1, #e9e7e1) !important;
+  background-repeat: no-repeat !important;
+  background-position: left center !important;
+  background-size: 0% 100% !important;
+  transition: background-size 0.65s cubic-bezier(0.65, 0, 0.35, 1), color 0.3s cubic-bezier(0.65, 0, 0.35, 1) 0.12s, padding-left 0.65s cubic-bezier(0.65, 0, 0.35, 1) !important;
+}
+[data-r="svc-row"]:hover { background-size: 100% 100% !important; color: #16171b !important; padding-left: 48px !important; }
+footer nav a:hover { background-size: 100% 100% !important; color: #16171b !important; padding-left: 36px !important; }
+/* nav menu items: same fill, but growing from the center */
+[data-r="menu-item"] {
+  background-image: linear-gradient(#e9e7e1, #e9e7e1) !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: 0% 100% !important;
+  transition: background-size 0.65s cubic-bezier(0.65, 0, 0.35, 1), color 0.3s cubic-bezier(0.65, 0, 0.35, 1) 0.12s !important;
+}
+[data-r="menu-item"]:hover { background-size: 100% 100% !important; color: #16171b !important; }
+[data-r="stages"] > div:last-of-type { border-right: 1px solid rgba(233,231,225,0.18); }
+
+/* ---- responsive: tablet (real viewport) ---- */
+@media (min-width: 701px) and (max-width: 1024px) {
+  [data-r="hero-copy"] { padding: 128px 32px 44px !important; }
+  [data-r="hero-h1"] { font-size: 50px !important; }
+  [data-r="team-col"] { padding: 32px !important; }
+  [data-r="team-copy"] { padding-left: 0 !important; }
+[data-r="team-disc"] { padding-left: 0 !important; padding-right: 0 !important; }
+  [data-r="team-h"] { font-size: 52px !important; }
+  [data-r="services"] { padding: 88px 32px 96px !important; }
+  [data-r="about"] { grid-template-columns: 1fr !important; min-height: 0 !important; padding: 100px 32px !important; gap: 64px !important; }
+  [data-r="about-copy"] { padding-bottom: 0 !important; position: static !important; }
+  [data-r="stages"] { grid-template-columns: repeat(4, 1fr) !important; }
+  [data-r="stages"] > div { justify-content: flex-start !important; gap: 56px !important; padding-bottom: 40px !important; }
+  [data-r="stage-name"] { font-size: 56px !important; }
+  footer { padding: 72px 32px 0 !important; }
+  [data-r="footer-grid"] { gap: 48px !important; }
+}
+
+/* ---- responsive: mobile (real viewport) ---- */
+@media (max-width: 700px) {
+  [data-r="hero-copy"] { padding: 104px 20px 36px !important; gap: 16px !important; }
+  [data-r="hero-copy"] > span { font-size: 10px !important; }
+  [data-r="hero-h1"] { font-size: 30px !important; }
+  [data-r="hero-lines"] { background-size: 25% 33.333% !important; }
+  [data-r="hero-card"] { min-width: 112px !important; min-height: 100px !important; padding: 10px !important; }
+  [data-r="hero-card-label"] { font-size: 11px !important; }
+  [data-r="hero-card-3"] { display: none !important; }
+  [data-r="team"] { grid-template-columns: 1fr !important; min-height: 0 !important; }
+  [data-r="team-visual"] { height: 55vh !important; min-height: 0 !important; }
+  [data-r="team-col"] { padding: 36px 20px 44px !important; gap: 40px !important; }
+  [data-r="team-copy"] { padding-left: 0 !important; }
+[data-r="team-disc"] { padding-left: 0 !important; padding-right: 0 !important; }
+  [data-r="team-h"] { font-size: 42px !important; }
+  [data-r="services"] { padding: 72px 20px 80px !important; }
+  [data-r="services-head"] { flex-direction: column !important; align-items: flex-start !important; gap: 10px !important; margin-bottom: 32px !important; }
+  [data-r="services-h"] { font-size: 28px !important; }
+  [data-r="svc-row"] { grid-template-columns: 44px 1fr auto !important; gap: 14px !important; padding: 20px 4px !important; }
+  [data-r="svc-row"] > :last-child { display: none !important; }
+  [data-r="svc-name"] { font-size: 17px !important; }
+  [data-r="about"] { grid-template-columns: 1fr !important; min-height: 0 !important; padding: 80px 20px !important; gap: 48px !important; }
+  [data-r="about-copy"] { padding-bottom: 0 !important; position: static !important; }
+  [data-r="about-p"] { font-size: 17px !important; }
+  [data-r="stages"] { grid-template-columns: repeat(4, 1fr) !important; }
+  [data-r="stages"] > div { justify-content: flex-start !important; gap: 44px !important; padding-bottom: 32px !important; }
+  [data-r="stage-name"] { font-size: 34px !important; }
+  [data-r="stage-desc"] { font-size: 12px !important; padding: 0 12px !important; }
+  [data-r="stages"] svg { width: 40px !important; height: 40px !important; }
+  [data-r="cta"] { height: 140vh !important; }
+  [data-r="cta-sticky"] { padding: 0 20px !important; }
+  [data-r="cta-h"] { font-size: 10.5vw !important; }
+  footer { position: static !important; padding: 64px 20px 0 !important; min-height: 0 !important; }
+  [data-r="footer-grid"] { grid-template-columns: 1fr !important; gap: 48px !important; }
+  footer nav a { font-size: 24px !important; }
+  [data-r="footer-meta"] { gap: 28px !important; }
+  [data-r="strip-row"] { padding: 0 20px !important; gap: 16px !important; }
+  [data-r="strip-row"] > span:last-child { font-size: 11px !important; text-align: right !important; }
+}
+
+/* ---- forced device preview: tablet ---- */
+[data-device="tablet"] { max-width: 768px !important; margin: 0 auto !important; border-inline: 1px solid rgba(233,231,225,0.12); }
+[data-device="tablet"] [data-r="cta-h"] { font-size: 64px !important; }
+[data-device="tablet"] [data-r="hero-copy"] { padding: 128px 32px 44px !important; }
+[data-device="tablet"] [data-r="hero-h1"] { font-size: 50px !important; }
+[data-device="tablet"] [data-r="team-col"] { padding: 32px !important; }
+[data-device="tablet"] [data-r="team-copy"] { padding-left: 0 !important; }
+[data-device="tablet"] [data-r="team-disc"] { padding-left: 0 !important; padding-right: 0 !important; }
+[data-device="tablet"] [data-r="team-h"] { font-size: 52px !important; }
+[data-device="tablet"] [data-r="services"] { padding: 88px 32px 96px !important; }
+[data-device="tablet"] [data-r="about"] { grid-template-columns: 1fr !important; min-height: 0 !important; padding: 100px 32px !important; gap: 64px !important; }
+[data-device="tablet"] [data-r="about-copy"] { padding-bottom: 0 !important; position: static !important; }
+[data-device="tablet"] [data-r="stages"] { grid-template-columns: repeat(4, 1fr) !important; }
+[data-device="tablet"] [data-r="stages"] > div { justify-content: flex-start !important; gap: 56px !important; padding-bottom: 40px !important; }
+[data-device="tablet"] [data-r="stage-name"] { font-size: 56px !important; }
+[data-device="tablet"] footer { padding: 72px 32px 0 !important; }
+[data-device="tablet"] [data-r="footer-grid"] { gap: 48px !important; }
+
+/* ---- forced device preview: mobile ---- */
+[data-device="mobile"] { max-width: 390px !important; margin: 0 auto !important; border-inline: 1px solid rgba(233,231,225,0.12); }
+[data-device="mobile"] [data-r="topnav"] { width: 358px !important; }
+[data-device="mobile"] [data-r="cta-h"] { font-size: 40px !important; }
+[data-device="mobile"] [data-r="hero-copy"] { padding: 104px 20px 36px !important; gap: 16px !important; }
+[data-device="mobile"] [data-r="hero-copy"] > span { font-size: 10px !important; }
+[data-device="mobile"] [data-r="hero-h1"] { font-size: 30px !important; }
+[data-device="mobile"] [data-r="hero-lines"] { background-size: 25% 33.333% !important; }
+[data-device="mobile"] [data-r="hero-card"] { min-width: 112px !important; min-height: 100px !important; padding: 10px !important; }
+[data-device="mobile"] [data-r="hero-card-label"] { font-size: 11px !important; }
+[data-device="mobile"] [data-r="hero-card-3"] { display: none !important; }
+[data-device="mobile"] [data-r="team"] { grid-template-columns: 1fr !important; min-height: 0 !important; }
+[data-device="mobile"] [data-r="team-visual"] { height: 55vh !important; min-height: 0 !important; }
+[data-device="mobile"] [data-r="team-col"] { padding: 36px 20px 44px !important; gap: 40px !important; }
+[data-device="mobile"] [data-r="team-copy"] { padding-left: 0 !important; }
+[data-device="mobile"] [data-r="team-disc"] { padding-left: 0 !important; padding-right: 0 !important; }
+[data-device="mobile"] [data-r="team-h"] { font-size: 42px !important; }
+[data-device="mobile"] [data-r="services"] { padding: 72px 20px 80px !important; }
+[data-device="mobile"] [data-r="services-head"] { flex-direction: column !important; align-items: flex-start !important; gap: 10px !important; margin-bottom: 32px !important; }
+[data-device="mobile"] [data-r="services-h"] { font-size: 28px !important; }
+[data-device="mobile"] [data-r="svc-row"] { grid-template-columns: 44px 1fr auto !important; gap: 14px !important; padding: 20px 4px !important; }
+[data-device="mobile"] [data-r="svc-row"] > :last-child { display: none !important; }
+[data-device="mobile"] [data-r="svc-name"] { font-size: 17px !important; }
+[data-device="mobile"] [data-r="about"] { grid-template-columns: 1fr !important; min-height: 0 !important; padding: 80px 20px !important; gap: 48px !important; }
+[data-device="mobile"] [data-r="about-copy"] { padding-bottom: 0 !important; position: static !important; }
+[data-device="mobile"] [data-r="about-p"] { font-size: 17px !important; }
+[data-device="mobile"] [data-r="stages"] { grid-template-columns: repeat(4, 1fr) !important; }
+[data-device="mobile"] [data-r="stages"] > div { justify-content: flex-start !important; gap: 44px !important; padding-bottom: 32px !important; }
+[data-device="mobile"] [data-r="stage-name"] { font-size: 34px !important; }
+[data-device="mobile"] [data-r="stage-desc"] { font-size: 12px !important; padding: 0 12px !important; }
+[data-device="mobile"] [data-r="stages"] svg { width: 40px !important; height: 40px !important; }
+[data-device="mobile"] [data-r="cta"] { height: 140vh !important; }
+[data-device="mobile"] [data-r="cta-sticky"] { padding: 0 20px !important; }
+[data-device="mobile"] footer { position: static !important; padding: 64px 20px 0 !important; }
+[data-device="mobile"] [data-r="footer-grid"] { grid-template-columns: 1fr !important; gap: 48px !important; }
+[data-device="mobile"] footer nav a { font-size: 24px !important; }
+[data-device="mobile"] [data-r="footer-meta"] { gap: 28px !important; }
+[data-device="mobile"] [data-r="strip-row"] { padding: 0 20px !important; gap: 16px !important; }
+[data-device="mobile"] [data-r="strip-row"] > span:last-child { font-size: 11px !important; text-align: right !important; }
+
+/* ---- hero stacked frames responsive ---- */
+@media (max-width: 700px) {
+  [data-r="hero-bar-caption"] { max-width: 170px !important; font-size: 12px !important; }
+  [data-r="stage-head"] { grid-template-columns: 36px 1fr auto !important; gap: 14px !important; }
+  [data-r="stage-body"] { grid-template-columns: 36px 1fr !important; gap: 14px !important; }
+}
+[data-device="mobile"] [data-r="hero-bar-caption"] { max-width: 170px !important; font-size: 12px !important; }
+[data-device="mobile"] [data-r="hero-bar-title"] { font-size: 22px !important; }
+[data-device="mobile"] [data-r="stage-head"] { grid-template-columns: 36px 1fr auto !important; gap: 14px !important; }
+[data-device="mobile"] [data-r="stage-body"] { grid-template-columns: 36px 1fr !important; gap: 14px !important; }
+
+/* ---- about us responsive ---- */
+@media (min-width: 701px) and (max-width: 1024px) {
+  [data-r="hero-copy"] { padding: 88px 32px 28px !important; }
+  [data-r="aboutus"] { grid-template-columns: 1fr !important; gap: 56px !important; padding: 100px 32px !important; }
+  [data-r="aboutus-rail"] { position: static !important; }
+}
+@media (max-width: 700px) {
+  [data-r="hero-copy"] { padding: 84px 20px 24px !important; }
+  [data-r="aboutus"] { grid-template-columns: 1fr !important; gap: 48px !important; padding: 80px 20px !important; }
+  [data-r="aboutus-rail"] { position: static !important; }
+  [data-r="aboutus-stat"] { font-size: 96px !important; }
+  [data-r="aboutus-p"], [data-r="aboutus-p"] + p { font-size: 21px !important; }
+}
+[data-device="tablet"] [data-r="hero-copy"] { padding: 88px 32px 28px !important; }
+[data-device="tablet"] [data-r="hero-wordmark"] { font-size: 111px !important; }
+[data-device="tablet"] [data-r="aboutus"] { grid-template-columns: 1fr !important; gap: 56px !important; padding: 100px 32px !important; }
+[data-device="tablet"] [data-r="aboutus-rail"] { position: static !important; }
+[data-device="mobile"] [data-r="hero-copy"] { padding: 84px 20px 24px !important; }
+[data-device="mobile"] [data-r="hero-wordmark"] { font-size: 56px !important; }
+[data-device="mobile"] [data-r="aboutus"] { grid-template-columns: 1fr !important; gap: 48px !important; padding: 80px 20px !important; }
+[data-device="mobile"] [data-r="aboutus-rail"] { position: static !important; }
+[data-device="mobile"] [data-r="aboutus-stat"] { font-size: 96px !important; }
+[data-device="mobile"] [data-r="aboutus-p"], [data-device="mobile"] [data-r="aboutus-p"] + p { font-size: 21px !important; }
+</style>
+</helmet>
+
+<div data-device="{{ deviceAttr }}" style="--page-bg: #0c0d10; --page-fg: #e9e7e1; --fade-bg: #e9e7e1; --fade-fg: #16171b; --accent-ink: {{ accentInk }}; --accent-draft: {{ accentDraft }}; font-family: 'General Sans', sans-serif; background: #0c0d10; color: #e9e7e1; min-height: 100vh; overflow-x: clip">
+
+<div style="position: relative; z-index: 1; background: #0c0d10; box-shadow: 0 30px 60px rgba(0,0,0,0.55)">
+
+  <!-- scroll progress -->
+  <div style="position: fixed; top: 0; left: 0; height: 2px; z-index: 60; width: {{ scrollPct }}; background: linear-gradient(90deg, var(--accent-ink), var(--accent-draft))"></div>
+
+  <!-- lagged cursor follower -->
+  <div data-cursor style="position: fixed; top: 0; left: 0; width: 10px; height: 10px; background: #e9e7e1; mix-blend-mode: difference; pointer-events: none; z-index: 90; transform: translate(-200px, -200px); will-change: transform"></div>
+
+  <!-- ============ NAV ============ -->
+  <nav data-r="topnav" style="position: fixed; top: 18px; left: 50%; transform: translateX(-50%); z-index: 50; display: flex; flex-direction: column; gap: 0; width: min(640px, calc(100vw - 32px))">
+    <div style="display: flex; align-items: center; justify-content: space-between; padding: 6px 18px; background: rgba(12,13,16,0.6); backdrop-filter: blur(18px) saturate(1.4); -webkit-backdrop-filter: blur(18px) saturate(1.4); border: 1px solid color-mix(in srgb, var(--page-fg, #e9e7e1) 14%, transparent); border-radius: 0; box-shadow: 0 8px 32px rgba(0,0,0,0.18), inset 0 1px 0 color-mix(in srgb, var(--page-fg, #e9e7e1) 12%, transparent)">
+      <a href="{{ mailto }}" title="Email us" style="display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 0; color: var(--page-fg, #e9e7e1); text-decoration: none; transition: background 0.25s" style-hover="background: color-mix(in srgb, var(--page-fg, #e9e7e1) 8%, transparent)">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg>
+      </a>
+      <a href="#top" style="display: inline-flex; align-items: center; gap: 10px; font-weight: 700; font-size: 14px; letter-spacing: 0.1em; color: var(--page-fg, #e9e7e1); text-decoration: none"><img src="images/logo.svg" alt="Ahnoud Tech logo" style="height: 24px; width: auto; display: block">AHNOUD&nbsp;TECH</a>
+      <button onClick="{{ toggleMenu }}" title="Menu" style="display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 0; border: none; background: transparent; color: var(--page-fg, #e9e7e1); cursor: pointer; transition: background 0.25s" style-hover="background: color-mix(in srgb, var(--page-fg, #e9e7e1) 8%, transparent)">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9h16"></path><path d="M4 15h16"></path></svg>
+      </button>
+    </div>
+    <sc-if value="{{ menuVisible }}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; flex-direction: column; padding: 10px; background: rgba(12,13,16,0.6); backdrop-filter: blur(18px) saturate(1.4); -webkit-backdrop-filter: blur(18px) saturate(1.4); border: 1px solid color-mix(in srgb, var(--page-fg, #e9e7e1) 14%, transparent); border-top: none; border-radius: 0; box-shadow: 0 8px 32px rgba(0,0,0,0.18); font-weight: 500; font-size: 13px; letter-spacing: 0.08em; transform-origin: top center; animation: {{ menuAnim }}">
+        <a href="#teams" data-r="menu-item" onClick="{{ closeMenu }}" style="position: relative; display: flex; justify-content: center; align-items: center; padding: 12px 12px; color: color-mix(in srgb, var(--page-fg, #e9e7e1) 75%, transparent); text-decoration: none; transition: background 0.2s, color 0.2s"><span style="transform-origin: center; animation: {{ itemAnim1 }}">TEAMS</span><span style="position: absolute; right: 12px; opacity: 0.45">↓</span></a>
+        <a href="#services" data-r="menu-item" onClick="{{ closeMenu }}" style="position: relative; display: flex; justify-content: center; align-items: center; padding: 12px 12px; color: color-mix(in srgb, var(--page-fg, #e9e7e1) 75%, transparent); text-decoration: none; transition: background 0.2s, color 0.2s"><span style="transform-origin: center; animation: {{ itemAnim2 }}">SERVICES</span><span style="position: absolute; right: 12px; opacity: 0.45">↓</span></a>
+        <a href="#about" data-r="menu-item" onClick="{{ closeMenu }}" style="position: relative; display: flex; justify-content: center; align-items: center; padding: 12px 12px; color: color-mix(in srgb, var(--page-fg, #e9e7e1) 75%, transparent); text-decoration: none; transition: background 0.2s, color 0.2s"><span style="transform-origin: center; animation: {{ itemAnim3 }}">ABOUT</span><span style="position: absolute; right: 12px; opacity: 0.45">↓</span></a>
+        <a href="#contact" data-r="menu-item" onClick="{{ closeMenu }}" style="position: relative; display: flex; justify-content: center; align-items: center; padding: 12px 12px; color: var(--page-fg, #e9e7e1); text-decoration: none; transition: background 0.2s"><span style="transform-origin: center; animation: {{ itemAnim4 }}">CONTACT</span><span style="position: absolute; right: 12px; opacity: 0.45">↗</span></a>
+      </div>
+    </sc-if>
+  </nav>
+
+  <!-- ============ HERO — stacked frames ============ -->
+  <header id="top" data-screen-label="Hero" data-r="hero" style="position: relative; height: 300vh; background: #0c0d10">
+
+    <!-- frame 01 -->
+    <div data-r="hero-panel" style="position: sticky; top: 0; height: 100vh; overflow: hidden; box-sizing: border-box; padding: 0; background: transparent">
+      <div style="position: relative; width: 100%; height: 100%; overflow: hidden; background: #101115">
+        <div data-hero-media="1" style="position: absolute; inset: 0; will-change: transform"><x-import component-from-global-scope="image-slot" from="./image-slot.js" id="hero-bg" src="https://images.unsplash.com/photo-1487017159836-4e23ece2e4cf?auto=format&amp;fit=crop&amp;w=1920&amp;q=80" shape="rect" fit="cover" placeholder="Drop frame 01 — moody b/w identity still" hint-size="100%,100%" style="width: 100%; height: 100%; display: block; filter: grayscale(1) contrast(1.06)"></x-import></div>
+        <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(rgba(12,13,16,0.18), rgba(12,13,16,0.42))"></div>
+        <div data-r="hero-bar" style="position: absolute; left: 8%; right: 8%; top: 44%; display: flex; justify-content: space-between; gap: 24px; background: #e9e7e1; color: #16171b; padding: clamp(14px, 1.6vw, 22px) clamp(16px, 2.2vw, 30px); box-sizing: border-box; box-shadow: 0 18px 44px rgba(0,0,0,0.35); animation: ah-fade 0.9s 0.2s ease both">
+          <div style="display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; gap: 12px">
+            <span style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 10px; letter-spacing: 0.14em; color: rgba(22,23,27,0.5)">VISUAL&nbsp;IDENTITY</span>
+            <span data-r="hero-bar-title" style="font-weight: 600; font-size: clamp(26px, 3.4vw, 46px); letter-spacing: 0.02em; line-height: 1">BRANDING</span>
+          </div>
+          <div style="display: flex; flex-direction: column; justify-content: space-between; align-items: flex-end; gap: 18px; text-align: right">
+            <span style="font-family: 'General Sans', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.14em; color: rgba(22,23,27,0.5)">01</span>
+            <span data-r="hero-bar-caption" style="font-family: 'General Sans', sans-serif; font-weight: 500; font-size: 15px; line-height: 1.5; letter-spacing: 0.06em; text-transform: uppercase; max-width: 320px">The mark that stays long after the launch</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- frame 02 -->
+    <div data-r="hero-panel" style="position: sticky; top: 0; height: 100vh; overflow: hidden; box-sizing: border-box; padding: 0; background: transparent">
+      <div style="position: relative; width: 100%; height: 100%; overflow: hidden; background: #101115">
+        <div data-hero-media="2" style="position: absolute; inset: 0; will-change: transform"><x-import component-from-global-scope="image-slot" from="./image-slot.js" id="hero-frame-2" src="https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&amp;fit=crop&amp;w=1920&amp;q=80" shape="rect" fit="cover" placeholder="Drop frame 02 — design work still" hint-size="100%,100%" style="width: 100%; height: 100%; display: block"></x-import></div>
+        <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(rgba(12,13,16,0.18), rgba(12,13,16,0.42))"></div>
+        <div data-r="hero-bar" style="position: absolute; left: 8%; right: 8%; top: 50%; display: flex; justify-content: space-between; gap: 24px; background: #e9e7e1; color: #16171b; padding: clamp(14px, 1.6vw, 22px) clamp(16px, 2.2vw, 30px); box-sizing: border-box; box-shadow: 0 18px 44px rgba(0,0,0,0.35)">
+          <div style="display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; gap: 12px">
+            <span style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 10px; letter-spacing: 0.14em; color: rgba(22,23,27,0.5)">KINOMAD&nbsp;STUDIO</span>
+            <span data-r="hero-bar-title" style="font-weight: 600; font-size: clamp(26px, 3.4vw, 46px); letter-spacing: 0.02em; line-height: 1">DESIGN</span>
+          </div>
+          <div style="display: flex; flex-direction: column; justify-content: space-between; align-items: flex-end; gap: 18px; text-align: right">
+            <span style="font-family: 'General Sans', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.14em; color: rgba(22,23,27,0.5)">02</span>
+            <span data-r="hero-bar-caption" style="font-family: 'General Sans', sans-serif; font-weight: 500; font-size: 15px; line-height: 1.5; letter-spacing: 0.06em; text-transform: uppercase; max-width: 320px">Every screen a decision. Every pixel a statement.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- frame 03 -->
+    <div data-r="hero-panel" style="position: sticky; top: 0; height: 100vh; overflow: hidden; box-sizing: border-box; padding: 0; background: transparent">
+      <div style="position: relative; width: 100%; height: 100%; overflow: hidden; background: #101115">
+        <div data-hero-media="3" style="position: absolute; inset: 0; will-change: transform"><x-import component-from-global-scope="image-slot" from="./image-slot.js" id="hero-frame-3" src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&amp;fit=crop&amp;w=1920&amp;q=80" shape="rect" fit="cover" placeholder="Drop frame 03 — code / systems still" hint-size="100%,100%" style="width: 100%; height: 100%; display: block"></x-import></div>
+        <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(rgba(12,13,16,0.18), rgba(12,13,16,0.42))"></div>
+        <div data-r="hero-bar" style="position: absolute; left: 8%; right: 8%; top: 38%; display: flex; justify-content: space-between; gap: 24px; background: #e9e7e1; color: #16171b; padding: clamp(14px, 1.6vw, 22px) clamp(16px, 2.2vw, 30px); box-sizing: border-box; box-shadow: 0 18px 44px rgba(0,0,0,0.35)">
+          <div style="display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; gap: 12px">
+            <span style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 10px; letter-spacing: 0.14em; color: rgba(22,23,27,0.5)">DRAFT&nbsp;LABS</span>
+            <span data-r="hero-bar-title" style="font-weight: 600; font-size: clamp(26px, 3.4vw, 46px); letter-spacing: 0.02em; line-height: 1">ENGINEERING</span>
+          </div>
+          <div style="display: flex; flex-direction: column; justify-content: space-between; align-items: flex-end; gap: 18px; text-align: right">
+            <span style="font-family: 'General Sans', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.14em; color: rgba(22,23,27,0.5)">03</span>
+            <span data-r="hero-bar-caption" style="font-family: 'General Sans', sans-serif; font-weight: 500; font-size: 15px; line-height: 1.5; letter-spacing: 0.06em; text-transform: uppercase; max-width: 320px">The system that keeps it all alive</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </header>
+
+  <!-- ============ ABOUT US ============ -->
+  <section id="about-us" data-screen-label="About Us" data-r="aboutus" style="background: var(--fade-bg); color: var(--fade-fg); display: grid; grid-template-columns: 300px 1fr; gap: 96px; align-items: start; padding: 150px 40px; box-sizing: border-box">
+    <div data-r="aboutus-rail" style="align-self: stretch; display: flex; flex-direction: column; justify-content: space-between; gap: 30px">
+      <span style="font-family: 'General Sans', sans-serif; font-weight: 500; font-size: 11px; letter-spacing: 0.12em; color: color-mix(in srgb, var(--fade-fg) 45%, transparent)">(ABOUT&nbsp;US)</span>
+      <div style="display: flex; flex-direction: column; gap: 12px">
+        <span data-r="aboutus-stat" key="{{ statNum }}" style="font-weight: 600; font-size: clamp(110px, 11.5vw, 190px); letter-spacing: -0.02em; line-height: 1; color: var(--fade-fg); animation: ah-fade 0.5s ease both">{{ statNum }}</span>
+        <span key="{{ statText }}" style="font-size: 14px; line-height: 1.55; color: color-mix(in srgb, var(--fade-fg) 55%, transparent); max-width: 240px; min-height: 68px; animation: ah-fade 0.5s 0.08s ease both">{{ statText }}</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px">
+        <button onClick="{{ statPrev }}" title="Previous" style="width: 38px; height: 38px; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--fade-fg) 25%, transparent); background: transparent; color: var(--fade-fg); cursor: pointer; font-size: 15px; transition: border-color 0.25s, background 0.25s" style-hover="border-color: color-mix(in srgb, var(--fade-fg) 60%, transparent); background: color-mix(in srgb, var(--fade-fg) 6%, transparent)">←</button>
+        <button onClick="{{ statNext }}" title="Next" style="width: 38px; height: 38px; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--fade-fg) 25%, transparent); background: transparent; color: var(--fade-fg); cursor: pointer; font-size: 15px; transition: border-color 0.25s, background 0.25s" style-hover="border-color: color-mix(in srgb, var(--fade-fg) 60%, transparent); background: color-mix(in srgb, var(--fade-fg) 6%, transparent)">→</button>
+        <span style="font-family: 'General Sans', sans-serif; font-weight: 500; font-size: 11px; letter-spacing: 0.1em; color: color-mix(in srgb, var(--fade-fg) 45%, transparent)">{{ statIdxLabel }}</span>
+      </div>
+    </div>
+    <div data-r="aboutus-copy" style="display: flex; flex-direction: column; gap: 44px">
+      <p data-r="aboutus-p" style="margin: 0; font-weight: 500; font-size: clamp(24px, 2.4vw, 38px); line-height: 1.42; letter-spacing: -0.01em; max-width: 920px"><sc-for list="{{ aboutWords1 }}" as="w" hint-placeholder-count="8"><span style="color: {{ w.c }}; transition: color 0.4s">{{ w.t }} </span></sc-for></p>
+      <p style="margin: 0; font-weight: 500; font-size: clamp(24px, 2.4vw, 38px); line-height: 1.42; letter-spacing: -0.01em; max-width: 920px"><sc-for list="{{ aboutWords2 }}" as="w" hint-placeholder-count="8"><span style="color: {{ w.c }}; transition: color 0.4s">{{ w.t }} </span></sc-for></p>
+      <div style="display: flex; align-items: center; gap: 14px">
+        <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="founder-avatar" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&amp;fit=crop&amp;w=200&amp;h=200&amp;q=80" shape="circle" fit="cover" placeholder="Founder photo" hint-size="44px,44px" style="width: 44px; height: 44px; flex-shrink: 0"></x-import>
+        <div style="display: flex; flex-direction: column; gap: 2px">
+          <span style="font-weight: 600; font-size: 14px">Founder&rsquo;s note</span>
+          <span style="font-size: 12px; color: color-mix(in srgb, var(--fade-fg) 50%, transparent)">Ahnoud Tech, Design &amp; Engineering</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TEAMS ============ -->
+  <section id="teams" data-screen-label="Teams" style="background: var(--fade-bg); color: var(--fade-fg); border-top: 1px solid color-mix(in srgb, var(--fade-fg) 8%, transparent)">
+
+    <!-- INK STUDIO -->
+    <div data-r="team" style="display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh; border-bottom: 1px solid color-mix(in srgb, var(--fade-fg) 8%, transparent)">
+      <div data-r="team-col" style="display: flex; flex-direction: column; justify-content: space-between; gap: 64px; padding: 40px 40px 48px 40px; box-sizing: border-box">
+        <span style="font-family: 'General Sans', sans-serif; font-weight: 500; font-size: 12px; letter-spacing: 0.14em; color: var(--accent-ink)">TEAM&nbsp;•&nbsp;01&nbsp;&nbsp;/&nbsp;&nbsp;THE&nbsp;EYE</span>
+        <div data-r="team-copy" style="display: flex; flex-direction: column; gap: 28px; max-width: 620px; padding-left: 12%; margin-bottom: 12%">
+          <h3 data-r="team-h" style="margin: 0; font-weight: 600; font-size: clamp(44px, 4.4vw, 76px); letter-spacing: -0.02em; line-height: 1.05"><a href="https://kinomadstudio.com" target="_blank" rel="noopener" title="Visit Kinomad Studio" style="color: inherit; text-decoration: none; transition: color 0.25s" style-hover="color: var(--accent-ink)">Kinomad&nbsp;Studio&nbsp;<span style="font-size: 0.4em; vertical-align: super">↗</span></a></h3>
+          <p style="margin: 0; max-width: 440px; font-size: 17px; line-height: 1.65; color: color-mix(in srgb, var(--fade-fg) 60%, transparent)">Kinomad Studio shapes how a company is seen: identity systems, digital design, and dimensional storytelling that give a brand its face.</p>
+          <a href="https://kinomadstudio.com" target="_blank" rel="noopener" style="align-self: flex-start; font-family: 'General Sans', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 0.12em; color: var(--accent-ink); text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--accent-ink) 45%, transparent); padding-bottom: 2px; transition: border-color 0.25s" style-hover="border-color: var(--accent-ink)">KINOMADSTUDIO.COM&nbsp;↗</a>
+        </div>
+        <div data-r="team-disc" style="display: flex; flex-direction: column; padding-left: 12%; padding-right: 12%; box-sizing: border-box; margin-bottom: 10%">
+          <span style="font-family: 'General Sans', sans-serif; font-weight: 500; font-size: 11px; letter-spacing: 0.12em; color: color-mix(in srgb, var(--fade-fg) 45%, transparent); padding-bottom: 14px">(DISCIPLINES)</span>
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-top: 1px solid color-mix(in srgb, var(--fade-fg) 10%, transparent); transition: padding-left 0.25s, border-top-color 0.25s" style-hover="padding-left: 10px; border-top-color: oklch(0.78 0.12 62 / 0.55)">
+            <span style="font-size: 17px; font-weight: 500">Brand Identity</span>
+            <span style="font-family: 'General Sans', sans-serif; font-weight: 500; font-size: 11px; color: color-mix(in srgb, var(--fade-fg) 45%, transparent)">01</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-top: 1px solid color-mix(in srgb, var(--fade-fg) 10%, transparent); transition: padding-left 0.25s, border-top-color 0.25s" style-hover="padding-left: 10px; border-top-color: oklch(0.78 0.12 62 / 0.55)">
+            <span style="font-size: 17px; font-weight: 500">Web Design</span>
+            <span style="font-family: 'General Sans', sans-serif; font-weight: 500; font-size: 11px; color: color-mix(in srgb, var(--fade-fg) 45%, transparent)">02</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-top: 1px solid color-mix(in srgb, var(--fade-fg) 10%, transparent); border-bottom: 1px solid color-mix(in srgb, var(--fade-fg) 10%, transparent); transition: padding-left 0.25s, border-top-color 0.25s" style-hover="padding-left: 10px; border-top-color: oklch(0.78 0.12 62 / 0.55)">
+            <span style="font-size: 17px; font-weight: 500">3D Visualization &amp; Animation</span>
+            <span style="font-family: 'General Sans', sans-serif; font-weight: 500; font-size: 11px; color: color-mix(in srgb, var(--fade-fg) 45%, transparent)">03</span>
+          </div>
+        </div>
+      </div>
+      <div data-r="team-visual" style="width: 100%; height: 100%; min-height: 100vh; overflow: hidden; position: relative"><div data-team-media="1" style="width: 100%; height: 100%; will-change: transform"><x-import component-from-global-scope="image-slot" from="./image-slot.js" id="ink-visual" src="https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" shape="rect" fit="cover" placeholder="Drop Kinomad Studio visual — work still / reel frame" hint-size="100%,100vh" style="width: 100%; height: 100%; display: block"></x-import></div></div>
+    </div>
+
+    <!-- DRAFT LABS -->
+    <div data-r="team" style="display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh">
+      <div data-r="team-visual" style="width: 100%; height: 100%; min-height: 100vh; overflow: hidden; position: relative"><div data-team-media="2" style="width: 100%; height: 100%; will-change: transform"><x-import component-from-global-scope="image-slot" from="./image-slot.js" id="draft-visual" src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" shape="rect" fit="cover" placeholder="Drop Draft Labs visual — product / code still" hint-size="100%,100vh" style="width: 100%; height: 100%; display: block"></x-import></div></div>
+      <div data-r="team-col" style="display: flex; flex-direction: column; justify-content: space-between; gap: 64px; padding: 40px 40px 48px 40px; box-sizing: border-box">
+        <span style="font-family: 'General Sans', sans-serif; font-weight: 500; font-size: 12px; letter-spacing: 0.14em; color: var(--accent-draft)">TEAM&nbsp;•&nbsp;02&nbsp;&nbsp;/&nbsp;&nbsp;THE&nbsp;ENGINE</span>
+        <div data-r="team-copy" style="display: flex; flex-direction: column; gap: 28px; max-width: 620px; padding-left: 12%; margin-bottom: 12%">
+          <h3 data-r="team-h" style="margin: 0; font-weight: 600; font-size: clamp(44px, 4.4vw, 76px); letter-spacing: -0.02em; line-height: 1.05">Draft&nbsp;Labs</h3>
+          <p style="margin: 0; max-width: 440px; font-size: 17px; line-height: 1.65; color: color-mix(in srgb, var(--fade-fg) 60%, transparent)">Draft Labs builds what runs underneath: production software, autonomous agents, and the infrastructure that keeps it all alive.</p>
+        </div>
+        <div data-r="team-disc" style="display: flex; flex-direction: column; padding-left: 12%; padding-right: 12%; box-sizing: border-box; margin-bottom: 10%">
+          <span style="font-family: 'General Sans', sans-serif; font-weight: 500; font-size: 11px; letter-spacing: 0.12em; color: color-mix(in srgb, var(--fade-fg) 45%, transparent); padding-bottom: 14px">(DISCIPLINES)</span>
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-top: 1px solid color-mix(in srgb, var(--fade-fg) 10%, transparent); transition: padding-left 0.25s, border-top-color 0.25s" style-hover="padding-left: 10px; border-top-color: oklch(0.75 0.12 250 / 0.55)">
+            <span style="font-size: 17px; font-weight: 500">Web Development</span>
+            <span style="font-family: 'General Sans', sans-serif; font-weight: 500; font-size: 11px; color: color-mix(in srgb, var(--fade-fg) 45%, transparent)">01</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-top: 1px solid color-mix(in srgb, var(--fade-fg) 10%, transparent); transition: padding-left 0.25s, border-top-color 0.25s" style-hover="padding-left: 10px; border-top-color: oklch(0.75 0.12 250 / 0.55)">
+            <span style="font-size: 17px; font-weight: 500">AI Agents &amp; Automation</span>
+            <span style="font-family: 'General Sans', sans-serif; font-weight: 500; font-size: 11px; color: color-mix(in srgb, var(--fade-fg) 45%, transparent)">02</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-top: 1px solid color-mix(in srgb, var(--fade-fg) 10%, transparent); border-bottom: 1px solid color-mix(in srgb, var(--fade-fg) 10%, transparent); transition: padding-left 0.25s, border-top-color 0.25s" style-hover="padding-left: 10px; border-top-color: oklch(0.75 0.12 250 / 0.55)">
+            <span style="font-size: 17px; font-weight: 500">Application DevOps</span>
+            <span style="font-family: 'General Sans', sans-serif; font-weight: 500; font-size: 11px; color: color-mix(in srgb, var(--fade-fg) 45%, transparent)">03</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============ SERVICES ============ -->
+  <section id="services" data-screen-label="Services" data-r="services" style="padding: 110px 40px 120px; background: #0e0f13; border-top: 1px solid rgba(233,231,225,0.08)">
+    <div data-r="services-head" style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 48px">
+      <span style="font-family: 'General Sans', sans-serif; font-weight: 500; font-size: 12px; letter-spacing: 0.1em; color: rgba(233,231,225,0.55)">(SERVICES)</span>
+      <h2 data-r="services-h" style="margin: 0; font-weight: 600; font-size: clamp(30px, 3.4vw, 52px); letter-spacing: -0.01em">What we take on.</h2>
+    </div>
+    <div style="display: flex; flex-direction: column">
+      <sc-for list="{{ services }}" as="svc" hint-placeholder-count="6">
+        <div data-r="svc-row" style="display: grid; grid-template-columns: 70px 1fr auto auto; align-items: center; gap: 24px; padding: 26px 8px; border-top: 1px solid rgba(233,231,225,0.1); color: #e9e7e1; transition: background 0.3s, color 0.3s, padding-left 0.35s" style-hover="color: #16171b">
+          <span style="font-family: 'General Sans', sans-serif; font-weight: 500; font-size: 12px; color: inherit; opacity: 0.5">{{ svc.index }}</span>
+          <span data-r="svc-name" style="font-size: clamp(20px, 2.2vw, 30px); font-weight: 600; letter-spacing: -0.01em">{{ svc.name }}</span>
+          <span style="display: inline-flex; align-items: center; gap: 8px; font-family: 'General Sans', sans-serif; font-weight: 500; font-size: 11px; letter-spacing: 0.1em; color: inherit; opacity: 0.75">
+            <span style="width: 7px; height: 7px; border-radius: 50%; background: {{ svc.dot }}"></span>{{ svc.team }}
+          </span>
+          <span style="font-family: 'General Sans', sans-serif; font-weight: 500; font-size: 16px; color: inherit; opacity: 0.5">↗</span>
+        </div>
+      </sc-for>
+      <div style="border-top: 1px solid rgba(233,231,225,0.1)"></div>
+    </div>
+  </section>
+
+  <!-- ============ STUDIO APPROACH ============ -->
+  <section id="about" data-screen-label="About" data-r="about" style="display: grid; grid-template-columns: 340px 1fr; gap: 96px; align-items: start; padding: 150px 40px; box-sizing: border-box; border-top: 1px solid rgba(233,231,225,0.08)">
+
+    <!-- left rail: label + statement, sticky -->
+    <div data-r="about-copy" style="align-self: stretch; display: flex; flex-direction: column; gap: 28px">
+      <span style="font-family: 'General Sans', sans-serif; font-weight: 500; font-size: 11px; letter-spacing: 0.12em; color: rgba(233,231,225,0.45)">(STUDIO&nbsp;APPROACH)</span>
+      <p data-r="about-p" style="margin: 0; font-size: clamp(19px, 1.5vw, 23px); line-height: 1.55; color: rgba(233,231,225,0.85); text-wrap: pretty">Ahnoud Tech exists on one belief: <span style="color: var(--accent-ink); font-style: italic">the brand</span> and <span style="color: var(--accent-draft); font-style: italic">the build</span> should never be separated. One table, from a solid identity and a reasoned design to the software and infrastructure that carry them.</p>
+      <span style="margin-top: auto; font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 10px; letter-spacing: 0.14em; color: rgba(233,231,225,0.45)">[&nbsp;04&nbsp;STAGES&nbsp;•&nbsp;ONE&nbsp;TABLE&nbsp;]</span>
+    </div>
+
+    <!-- right: stage strips (accordion) -->
+    <div style="display: flex; flex-direction: column; border-bottom: 1px solid rgba(233,231,225,0.12)">
+      <sc-for list="{{ stages }}" as="s" hint-placeholder-count="4">
+        <div onClick="{{ s.toggle }}" title="Click to expand" style="border-top: 1px solid rgba(233,231,225,0.12); cursor: pointer; background: {{ s.bg }}; color: {{ s.fg }}; padding: 0 clamp(14px, 1.8vw, 26px); transition: background 0.4s, color 0.4s" style-hover="background: {{ s.hoverBg }}">
+          <div data-r="stage-head" style="display: grid; grid-template-columns: 64px 1fr auto; align-items: center; gap: 24px; padding: 24px 0">
+            <span style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 11px; letter-spacing: 0.12em; opacity: 0.55">{{ s.index }}</span>
+            <span data-r="stage-name" style="font-weight: 600; font-size: clamp(30px, 3.2vw, 54px); letter-spacing: -0.01em; line-height: 1.05">{{ s.name }}</span>
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" style="transform: rotate({{ s.rot }}); transition: transform 0.4s; color: {{ s.color }}"><path d="M14 3v22M3 14h22" stroke="currentColor" stroke-width="1.5"></path></svg>
+          </div>
+          <div style="overflow: hidden; max-height: {{ s.maxH }}; transition: max-height 0.5s cubic-bezier(0.22, 1, 0.36, 1)">
+            <div data-r="stage-body" style="display: grid; grid-template-columns: 64px 1fr; gap: 24px; padding: 2px 0 30px">
+              <span></span>
+              <div style="display: flex; flex-direction: column; gap: 14px; max-width: 560px">
+                <span style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 10px; letter-spacing: 0.14em; color: {{ s.color }}">({{ s.team }})</span>
+                <p style="margin: 0; font-size: 16px; line-height: 1.65; color: {{ s.subFg }}">{{ s.desc }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section data-screen-label="CTA" data-r="cta" style="position: relative; height: 180vh; border-top: 1px solid rgba(233,231,225,0.08)">
+    <div style="position: absolute; inset: 0">
+      <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="cta-visual" src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&amp;fit=crop&amp;w=1920&amp;q=80" shape="rect" fit="cover" placeholder="Drop CTA visual — b&amp;w studio / process still" hint-size="100%,100%" style="width: 100%; height: 100%; display: block"></x-import>
+      <div style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(rgba(12,13,16,0.5), rgba(12,13,16,0.72))"></div>
+    </div>
+    <div data-r="cta-sticky" style="position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 40px; box-sizing: border-box; pointer-events: none">
+      <h2 data-r="cta-h" style="margin: 0; align-self: center; width: max-content; max-width: 100%; font-weight: 700; font-size: clamp(54px, 8.6vw, 150px); line-height: 0.98; letter-spacing: -0.02em; text-transform: uppercase; color: #e9e7e1">
+        <span style="display: block">Let's build</span>
+        <span style="display: block; padding-left: 10%">a brand,</span>
+        <span style="display: block; padding-left: 4%">and the system</span>
+        <span data-cta-slide style="display: block; padding-left: 18%; will-change: transform">→ behind it</span>
+      </h2>
+      <div style="display: flex; justify-content: center; margin-top: 56px">
+        <a href="{{ mailto }}" style="pointer-events: auto; display: inline-flex; align-items: center; gap: 12px; padding: 16px 26px; border-radius: 12px; background: #e9e7e1; color: #0c0d10; font-weight: 600; font-size: 16px; text-decoration: none; transition: transform 0.25s, background 0.25s" style-hover="transform: translateY(-3px); background: #ffffff">Start a project&nbsp;<span style="font-size: 15px">↗</span></a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+  <!-- ============ FOOTER (reveals under page) ============ -->
+  <footer id="contact" data-screen-label="Contact" style="position: sticky; bottom: 0; z-index: 0; background: #0a0b0e; padding: 72px 40px 0; box-sizing: border-box; display: flex; flex-direction: column; min-height: 100vh">
+    <div data-r="footer-grid" style="display: grid; grid-template-columns: 1.3fr 1fr; gap: 72px; align-items: start">
+
+      <!-- big nav -->
+      <nav style="display: flex; flex-direction: column">
+        <span style="display: inline-flex; align-items: center; gap: 8px; font-weight: 500; font-size: 11px; letter-spacing: 0.12em; color: rgba(233,231,225,0.45); padding-bottom: 16px"><span style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-ink)"></span>NAVIGATION</span>
+        <a href="#teams" style="display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-top: 1px solid rgba(233,231,225,0.1); font-size: clamp(24px, 2.4vw, 36px); font-weight: 500; color: #e9e7e1; text-decoration: none; transition: background 0.3s, padding-left 0.3s, color 0.3s" style-hover="color: #16171b"><span>Teams</span><span style="font-size: 16px; color: inherit; opacity: 0.5">↓</span></a>
+        <a href="#services" style="display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-top: 1px solid rgba(233,231,225,0.1); font-size: clamp(24px, 2.4vw, 36px); font-weight: 500; color: #e9e7e1; text-decoration: none; transition: background 0.3s, padding-left 0.3s, color 0.3s" style-hover="color: #16171b"><span>Services</span><span style="font-size: 16px; color: inherit; opacity: 0.5">↓</span></a>
+        <a href="#about" style="display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-top: 1px solid rgba(233,231,225,0.1); font-size: clamp(24px, 2.4vw, 36px); font-weight: 500; color: #e9e7e1; text-decoration: none; transition: background 0.3s, padding-left 0.3s, color 0.3s" style-hover="color: #16171b"><span>About</span><span style="font-size: 16px; color: inherit; opacity: 0.5">↓</span></a>
+        <a href="{{ mailto }}" style="display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-top: 1px solid rgba(233,231,225,0.1); border-bottom: 1px solid rgba(233,231,225,0.1); font-size: clamp(24px, 2.4vw, 36px); font-weight: 500; color: #e9e7e1; text-decoration: none; transition: background 0.3s, padding-left 0.3s, color 0.3s" style-hover="color: #16171b"><span>Contact</span><span style="font-size: 16px; color: inherit; opacity: 0.5">↗</span></a>
+      </nav>
+
+      <!-- meta columns -->
+      <div data-r="footer-meta" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 30px">
+        <div style="display: flex; flex-direction: column; gap: 18px">
+          <span style="font-weight: 500; font-size: 11px; letter-spacing: 0.12em; color: rgba(233,231,225,0.45)">(GET IN TOUCH)</span>
+          <a href="{{ mailto }}" style="color: #e9e7e1; font-size: 14px; font-weight: 500; text-decoration: none; border-bottom: 1px solid rgba(233,231,225,0.3); align-self: flex-start; padding-bottom: 2px; transition: color 0.25s, border-color 0.25s" style-hover="color: var(--accent-draft); border-color: var(--accent-draft)">⮡&nbsp;{{ contactEmail }}</a>
+          <p style="margin: 0; font-size: 13px; line-height: 1.6; color: rgba(233,231,225,0.5)">Two teams, one table.<br>Working worldwide.</p>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 18px">
+          <span style="font-weight: 500; font-size: 11px; letter-spacing: 0.12em; color: rgba(233,231,225,0.45)">(SOCIALS)</span>
+          <div style="display: flex; flex-direction: column; gap: 10px; font-size: 14px; font-weight: 500">
+            <a href="#top" style="color: rgba(233,231,225,0.7); text-decoration: none; transition: color 0.25s" style-hover="color: #e9e7e1">Instagram&nbsp;↗</a>
+            <a href="#top" style="color: rgba(233,231,225,0.7); text-decoration: none; transition: color 0.25s" style-hover="color: #e9e7e1">LinkedIn&nbsp;↗</a>
+            <a href="#top" style="color: rgba(233,231,225,0.7); text-decoration: none; transition: color 0.25s" style-hover="color: #e9e7e1">YouTube&nbsp;↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- bottom meta bar -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 24px; margin-top: 64px; font-weight: 500; font-size: 12px; letter-spacing: 0.04em; color: rgba(233,231,225,0.55)">
+      <div style="display: flex; flex-direction: column; gap: 4px">
+        <span style="color: #e9e7e1">Local&nbsp;time&nbsp;{{ timeStr }}</span>
+        <span>{{ dateStr }}</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 4px">
+        <a href="#top" style="color: #e9e7e1; text-decoration: none" style-hover="color: var(--accent-ink)">Back&nbsp;to&nbsp;top&nbsp;↑</a>
+        <span>Booking&nbsp;projects&nbsp;for&nbsp;Q3&nbsp;'26</span>
+      </div>
+      <span>©&nbsp;2026&nbsp;AHNOUD&nbsp;TECH</span>
+    </div>
+
+    <!-- interactive halftone strip -->
+    <div data-r="halftone-strip" style="position: relative; flex: 1 1 auto; min-height: 240px; margin: 48px -40px 0; overflow: hidden; cursor: crosshair; background: #e9e7e1">
+      <canvas data-halftone style="position: absolute; inset: 0; width: 100%; height: 100%; display: block"></canvas>
+      <div data-r="strip-row" style="position: relative; display: flex; justify-content: space-between; align-items: center; height: 100%; padding: 0 40px; box-sizing: border-box; pointer-events: none">
+        <span style="display: inline-flex; align-items: center; gap: 10px; font-weight: 700; font-size: 13px; letter-spacing: 0.1em; mix-blend-mode: difference"><img src="images/logo.svg" alt="Ahnoud Tech logo" style="height: 18px; width: auto; display: block">AHNOUD&nbsp;TECH</span>
+        <span style="font-style: italic; font-size: 15px; color: #e9e7e1; mix-blend-mode: difference">『&nbsp;The brand and the build, together.&nbsp;』</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;devicePreview&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Desktop&quot;,&quot;Tablet&quot;,&quot;Mobile&quot;],&quot;default&quot;:&quot;Desktop&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Preview&quot;},&quot;accentInk&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#de1b56&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Accents&quot;},&quot;accentDraft&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#2185e8&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Accents&quot;},&quot;contactEmail&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;hello@ahnoudtech.com&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contact&quot;},&quot;saveAsDefault&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Settings&quot;}}">
+class Component extends DCLogic {
+  state = { menuOpen: false, menuClosing: false, scrollPct: "0%", timeStr: "", dateStr: "", statIdx: 0, aboutLit: 0, openStage: 0 };
+
+  componentDidMount() {
+    this._root = document.querySelector("[data-device]");
+    this._onScroll = () => {
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - window.innerHeight;
+      const pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+      this.setState({ scrollPct: pct.toFixed(1) + "%" });
+      // hero stacked-frames parallax (direct style writes for smoothness)
+      const vh = window.innerHeight;
+      let panels = this._heroPanels;
+      if (!panels || panels.length < 3) panels = this._heroPanels = Array.from(document.querySelectorAll('[data-r="hero-panel"]'));
+      panels.forEach((p, i) => {
+        const inner = p.firstElementChild;
+        if (!inner) return;
+        const cover = Math.min(1, Math.max(0, (window.scrollY - i * vh) / vh));
+        const enter = Math.min(1, Math.max(0, (window.scrollY - (i - 1) * vh) / vh));
+        inner.style.willChange = "transform";
+        // incoming frame scales up 0.9 -> 1 as it rises; covered frame drifts up underneath
+        const scale = 0.9 + 0.1 * enter;
+        inner.style.transform = "translateY(" + (-10 * cover).toFixed(2) + "vh) scale(" + scale.toFixed(4) + ")";
+        // continuous image parallax: lags behind while entering, keeps drifting while covered
+        const media = inner.querySelector("[data-hero-media]");
+        if (media) {
+          const shift = (1 - enter) * -8 + cover * 8;
+          media.style.transform = "translateY(" + shift.toFixed(2) + "%) scale(1.2)";
+        }
+      });
+      // teams section image parallax
+      if (!this._teamMedia || this._teamMedia.length < 2) this._teamMedia = Array.from(document.querySelectorAll("[data-team-media]"));
+      this._teamMedia.forEach((m) => {
+        const r = m.parentElement.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > vh) return;
+        const prog = (r.top + r.height / 2 - vh / 2) / ((vh + r.height) / 2);
+        const shift = Math.max(-1, Math.min(1, prog)) * -11;
+        m.style.transform = "translateY(" + shift.toFixed(2) + "%) scale(1.26)";
+      });
+      // light -> dark fade: Ink Studio stays light, darkening starts at Draft Labs
+      const aboutSec = document.querySelectorAll('[data-r="team"]')[1];
+      const servicesSec = document.getElementById("services");
+      if (aboutSec && servicesSec && this._root) {
+        const aboutTop = aboutSec.getBoundingClientRect().top + window.scrollY;
+        const svcTop = servicesSec.getBoundingClientRect().top + window.scrollY;
+        const start = aboutTop - vh * 0.5;
+        const end = svcTop - vh;
+        let t = Math.min(1, Math.max(0, (window.scrollY - start) / Math.max(1, end - start)));
+        t = t * t * (3 - 2 * t); // smoothstep: eases in and out of the shift
+        const L = (a, b) => Math.round(a + (b - a) * t);
+        // fg flips on a steep ramp around the bg midpoint so text never loses contrast
+        const tf = Math.min(1, Math.max(0, (t - 0.46) / 0.08));
+        const F = (a, b) => Math.round(a + (b - a) * tf);
+        this._root.style.setProperty("--fade-bg", "rgb(" + L(233, 14) + "," + L(231, 15) + "," + L(225, 19) + ")");
+        this._root.style.setProperty("--fade-fg", "rgb(" + F(22, 233) + "," + F(23, 231) + "," + F(27, 225) + ")");
+      }
+      // CTA last line slides right while the section is pinned
+      const ctaSlide = document.querySelector("[data-cta-slide]");
+      const ctaSec = document.querySelector('[data-r="cta"]');
+      if (ctaSlide && ctaSec) {
+        const cr = ctaSec.getBoundingClientRect();
+        let pc = Math.min(1, Math.max(0, -cr.top / Math.max(1, cr.height - vh)));
+        pc = pc * pc * (3 - 2 * pc);
+        ctaSlide.style.transform = "translateX(" + (pc * 12).toFixed(2) + "vw)";
+      }
+      // halftone strip opens from center as the footer reveals
+      const strip = document.querySelector('[data-r="halftone-strip"]');
+      if (strip) {
+        const foot = strip.closest("footer");
+        const span = foot ? foot.offsetHeight : vh;
+        let p = Math.min(1, Math.max(0, 1 - (max - window.scrollY) / Math.max(1, span)));
+        p = p * p * (3 - 2 * p); // smoothstep
+        // rises from the bottom edge like a curtain as the footer reveals
+        strip.style.clipPath = "inset(" + ((1 - p) * 100).toFixed(2) + "% 0 0 0)";
+      }
+      // about us: word-by-word reveal
+      const copyEl = document.querySelector('[data-r="aboutus-copy"]');
+      if (copyEl && this._aboutTotal) {
+        const r = copyEl.getBoundingClientRect();
+        const vh = window.innerHeight;
+        const prog = Math.min(1, Math.max(0, (vh * 0.85 - r.top) / (r.height + vh * 0.3)));
+        const lit = Math.round(prog * this._aboutTotal);
+        if (lit !== this.state.aboutLit) this.setState({ aboutLit: lit });
+      }
+    };
+    window.addEventListener("scroll", this._onScroll, { passive: true });
+    this._onScroll();
+
+    this._tick = () => {
+      const d = new Date();
+      const off = -d.getTimezoneOffset() / 60;
+      const gmt = "GMT" + (off >= 0 ? "+" : "") + off;
+      this.setState({
+        timeStr: d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit" }),
+        dateStr: d.toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric", year: "numeric" }) + " (" + gmt + ")"
+      });
+    };
+    this._tick();
+    this._clock = setInterval(this._tick, 1000);
+    this._statTimer = setInterval(() => this.setState(s => ({ statIdx: (s.statIdx + 1) % 3 })), 4500);
+
+    // lagged cursor follower (fine pointers only)
+    if (window.matchMedia && window.matchMedia("(pointer: fine)").matches) {
+      this._curT = { x: -200, y: -200 };
+      this._curP = { x: -200, y: -200 };
+      this._curMove = (e) => { this._curT.x = e.clientX; this._curT.y = e.clientY; };
+      window.addEventListener("mousemove", this._curMove, { passive: true });
+      const curLoop = () => {
+        this._curRaf = requestAnimationFrame(curLoop);
+        const el = this._curEl || (this._curEl = document.querySelector("[data-cursor]"));
+        if (!el) return;
+        // eased follow with a little delay
+        this._curP.x += (this._curT.x - this._curP.x) * 0.1;
+        this._curP.y += (this._curT.y - this._curP.y) * 0.1;
+        el.style.transform = "translate(" + (this._curP.x - 5).toFixed(1) + "px," + (this._curP.y - 5).toFixed(1) + "px)";
+      };
+      this._curRaf = requestAnimationFrame(curLoop);
+    }
+
+    // interactive halftone strip (footer)
+    const startHalftone = () => {
+      const cv = document.querySelector("[data-halftone]");
+      if (!cv) { this._htRetry = setTimeout(startHalftone, 400); return; }
+      const ctx = cv.getContext("2d");
+      const wrap = cv.parentElement;
+      let W = 0, H = 0;
+      const resize = () => { W = cv.width = cv.clientWidth; H = cv.height = cv.clientHeight; };
+      resize();
+      this._htResize = resize;
+      window.addEventListener("resize", resize);
+      let tx = -99999, ty = -99999, mx = -99999, my = -99999;
+      this._htMove = (e) => { const r = cv.getBoundingClientRect(); tx = e.clientX - r.left; ty = e.clientY - r.top; };
+      this._htLeave = () => { tx = -99999; ty = -99999; };
+      wrap.addEventListener("mousemove", this._htMove);
+      wrap.addEventListener("mouseleave", this._htLeave);
+      this._htWrap = wrap;
+      const loop = (t) => {
+        this._htRaf = requestAnimationFrame(loop);
+        if (cv.clientWidth !== W || cv.clientHeight !== H) resize(); // track layout changes (device preview, orientation)
+        if (!W || !H) return;
+        mx += (tx - mx) * 0.035;
+        my += (ty - my) * 0.035;
+        ctx.clearRect(0, 0, W, H);
+        ctx.fillStyle = "#0c0d10";
+        const s = W <= 1024 ? 13 : 26; // half-size pixels on tablet/mobile
+        const T = t * 0.001;
+        for (let y = s / 2; y < H; y += s) {
+          for (let x = s / 2; x < W; x += s) {
+            // passive noise: slow layered sine field, an organic wave rolling across the strip
+            const n1 = Math.sin(x * 0.0035 + T * 0.5 + Math.sin(y * 0.008 + T * 0.35) * 1.6);
+            const n2 = Math.sin(y * 0.009 - T * 0.28 + Math.sin(x * 0.002 - T * 0.42) * 2.2);
+            const n3 = Math.sin((x + y) * 0.0022 + T * 0.2);
+            let v = 0.5 + 0.5 * (n1 * 0.5 + n2 * 0.35 + n3 * 0.15);
+            v = Math.pow(Math.max(0, v - 0.3) / 0.7, 1.7);
+            const dxc = (x - mx) / 150, dyc = (y - my) / 150;
+            v += 1.1 * Math.exp(-(dxc * dxc + dyc * dyc) * 2);
+            const vv = Math.min(1, v);
+            const ex = 1 - Math.pow(1 - vv, 3); // easeOutCubic on x
+            const ey = vv * vv * (3 - 2 * vv); // smoothstep on y
+            const w = ex * (s - 1), h = ey * (s - 1);
+            if (w > 0.6 && h > 0.6) ctx.fillRect(x - w / 2, y - h / 2, w, h);
+          }
+        }
+      };
+      this._htRaf = requestAnimationFrame(loop);
+    };
+    startHalftone();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this._onScroll);
+    clearInterval(this._clock);
+    clearInterval(this._statTimer);
+    clearTimeout(this._htRetry);
+    cancelAnimationFrame(this._curRaf);
+    if (this._curMove) window.removeEventListener("mousemove", this._curMove);
+    cancelAnimationFrame(this._htRaf);
+    if (this._htResize) window.removeEventListener("resize", this._htResize);
+    if (this._htWrap) {
+      this._htWrap.removeEventListener("mousemove", this._htMove);
+      this._htWrap.removeEventListener("mouseleave", this._htLeave);
+    }
+  }
+
+  _closeMenu() {
+    if (!this.state.menuOpen) return;
+    clearTimeout(this._menuT);
+    this.setState({ menuOpen: false, menuClosing: true });
+    this._menuT = setTimeout(() => this.setState({ menuClosing: false }), 480);
+  }
+
+  _aboutVals() {
+    const P1 = "Ambitious teams deserve a brand as considered as the systems behind it. Most companies we meet have built something real, then split it across vendors who never talk to each other.";
+    const P2 = "That gap costs more than time. Design and engineering at one table means what ships is one idea, carried end to end.";
+    const w1 = P1.split(" "), w2 = P2.split(" ");
+    this._aboutTotal = w1.length + w2.length;
+    const lit = this.state.aboutLit;
+    const mk = (arr, off) => arr.map((t, i) => ({ t, c: off + i < lit ? "var(--fade-fg)" : "color-mix(in srgb, var(--fade-fg) 16%, transparent)" }));
+    const stats = [
+      { n: "01", t: "Table where designers and engineers ship together, kickoff to launch." },
+      { n: "02", t: "Teams under one roof: Kinomad Studio for design, Draft Labs for engineering." },
+      { n: "06", t: "Services, from brand identity through application DevOps." }
+    ];
+    const idx = this.state.statIdx;
+    return {
+      aboutWords1: mk(w1, 0),
+      aboutWords2: mk(w2, w1.length),
+      statNum: stats[idx].n,
+      statText: stats[idx].t,
+      statIdxLabel: "0" + (idx + 1) + " / 03",
+      statPrev: () => this.setState(s => ({ statIdx: (s.statIdx + 2) % 3 })),
+      statNext: () => this.setState(s => ({ statIdx: (s.statIdx + 1) % 3 }))
+    };
+  }
+
+  _savedDefaults() {
+    if (this._savedCache === undefined) {
+      try { this._savedCache = JSON.parse(localStorage.getItem("ahnoud-tweak-defaults")) || null; }
+      catch (e) { this._savedCache = null; }
+    }
+    return this._savedCache;
+  }
+
+  componentDidUpdate(prevProps) {
+    // "Save as default" toggle: snapshot current tweak values so they persist across sessions
+    if (this.props.saveAsDefault && !prevProps.saveAsDefault) {
+      const snap = {
+        devicePreview: this.props.devicePreview,
+        accentInk: this.props.accentInk,
+        accentDraft: this.props.accentDraft,
+        contactEmail: this.props.contactEmail
+      };
+      Object.keys(snap).forEach((k) => snap[k] === undefined && delete snap[k]);
+      try { localStorage.setItem("ahnoud-tweak-defaults", JSON.stringify(snap)); } catch (e) {}
+      this._savedCache = snap;
+    }
+  }
+
+  renderVals() {
+    const saved = this._savedDefaults() || {};
+    const email = this.props.contactEmail ?? saved.contactEmail ?? "hello@ahnoudtech.com";
+    return {
+      scrollPct: this.state.scrollPct,
+      timeStr: this.state.timeStr,
+      dateStr: this.state.dateStr,
+      menuVisible: this.state.menuOpen || this.state.menuClosing,
+      menuAnim: this.state.menuClosing
+        ? "ah-menu-close 0.28s 0.14s cubic-bezier(0.65, 0, 0.35, 1) both"
+        : "ah-menu-open 0.32s cubic-bezier(0.22, 1, 0.36, 1) both",
+      ...[1, 2, 3, 4].reduce((acc, n, i) => {
+        acc["itemAnim" + n] = this.state.menuClosing
+          ? "ah-menu-item-out 0.22s " + ((3 - i) * 0.05).toFixed(2) + "s ease both"
+          : "ah-menu-item 0.35s " + (0.1 + i * 0.06).toFixed(2) + "s ease both";
+        return acc;
+      }, {}),
+      toggleMenu: () => (this.state.menuOpen ? this._closeMenu() : this.setState({ menuOpen: true, menuClosing: false })),
+      closeMenu: () => this._closeMenu(),
+      contactEmail: email,
+      deviceAttr: (this.props.devicePreview ?? saved.devicePreview ?? "Desktop").toLowerCase(),
+      ...this._aboutVals(),
+      stages: [
+        { name: "Identity", team: "KINOMAD STUDIO", color: "var(--accent-ink)", desc: "Naming, voice, and identity systems: the brand foundations everything else is built on." },
+        { name: "Design", team: "KINOMAD STUDIO", color: "var(--accent-ink)", desc: "Interfaces, websites, and 3D storytelling that carry the identity into product." },
+        { name: "Build", team: "DRAFT LABS", color: "var(--accent-draft)", desc: "Web development, AI agents, and automation, engineered to the same standard." },
+        { name: "Operate", team: "DRAFT LABS", color: "var(--accent-draft)", desc: "DevOps, infrastructure, and care after launch, so what we ship keeps running." }
+      ].map((d, i) => {
+        const open = this.state.openStage === i;
+        return {
+          ...d,
+          index: "P/0" + (i + 1),
+          rot: open ? "45deg" : "0deg",
+          bg: open ? "#e9e7e1" : "transparent",
+          hoverBg: open ? "#e9e7e1" : "rgba(233,231,225,0.04)",
+          fg: open ? "#16171b" : "#e9e7e1",
+          subFg: open ? "rgba(22,23,27,0.68)" : "rgba(233,231,225,0.6)",
+          maxH: open ? "180px" : "0px",
+          toggle: () => this.setState(s => ({ openStage: s.openStage === i ? -1 : i }))
+        };
+      }),
+      accentInk: this.props.accentInk ?? saved.accentInk ?? "#eea563",
+      accentDraft: this.props.accentDraft ?? saved.accentDraft ?? "#70b3f7",
+      mailto: "mailto:" + email,
+      services: [
+        { index: "S/01", name: "Brand Identity", team: "KINOMAD", dot: "var(--accent-ink)" },
+        { index: "S/02", name: "Web Design", team: "KINOMAD", dot: "var(--accent-ink)" },
+        { index: "S/03", name: "3D Visualization & Animation", team: "KINOMAD", dot: "var(--accent-ink)" },
+        { index: "S/04", name: "Web Development", team: "DRAFT", dot: "var(--accent-draft)" },
+        { index: "S/05", name: "AI Agents & Automation", team: "DRAFT", dot: "var(--accent-draft)" },
+        { index: "S/06", name: "Application DevOps", team: "DRAFT", dot: "var(--accent-draft)" }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
