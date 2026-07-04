@@ -1,7 +1,8 @@
-node_modules
-.next
 .git
 .github
-.vscode
+.gitignore
 .env
+.vscode
 *.md
+Dockerfile
+docker-compose.yml
