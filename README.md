@@ -25,11 +25,15 @@ A local server is recommended over `file://` so the fonts, logo, and stock image
 ```
 .
 ├── Ahnoud Tech Landing.dc.html   # the page (template + logic)
+├── index.html                    # deploy copy of the landing page
 ├── 404.html                      # brand-matched not-found page
+├── robots.txt                    # crawler rules + sitemap pointer
+├── sitemap.xml                   # single-URL sitemap
 ├── support.js                    # Design Component runtime (do not edit)
 ├── image-slot.js                 # drag-and-drop image placeholder component
 ├── images/
-│   └── logo.svg                  # Ahnoud Tech wordmark logo
+│   ├── logo.svg                  # Ahnoud Tech wordmark logo
+│   └── og-card.png               # social share image (Open Graph / Twitter)
 ├── uploads/                      # source materials & references (not shipped)
 └── README.md
 ```
@@ -76,6 +80,20 @@ The Design Component exposes a few editable props (shown as a Tweaks panel in th
 ## Images
 
 The hero, team, founder, and CTA visuals are pulled from [Unsplash](https://unsplash.com) via URL as placeholders. To use your own art, drop images onto the slots in the editor (each `image-slot` persists its drop), or replace the `src` URLs in the template. The only bundled raster asset is `images/logo.svg`.
+
+---
+
+## SEO
+
+The head of the page carries the essentials: title + meta description, canonical URL, Open Graph / Twitter card tags (using `images/og-card.png`), favicon, theme color, and JSON-LD `Organization` schema. The hero includes a visually-hidden `h1`; sections use `h2`/`h3`. `robots.txt` and `sitemap.xml` are included.
+
+**Before launch, the developer should:**
+
+1. Replace `https://ahnoudtech.com` in the canonical, OG, sitemap, and JSON-LD with the real production domain.
+2. Deploy `index.html` at the domain root. All page copy exists in the initial HTML (the template is inline), so crawlers see the full content even without executing JS; for maximum coverage, consider prerendering the page (e.g. `puppeteer` snapshot at build time) so the fully rendered DOM is served.
+3. Replace the Unsplash placeholder images with optimized, self-hosted assets (WebP/AVIF, sized to the layout) and give each a descriptive `alt`/`aria-label`.
+4. Serve over HTTPS with long-lived caching for `support.js`, `image-slot.js`, and `images/`.
+5. Wire the server to return `404.html` (it is marked `noindex`).
 
 ---
 
