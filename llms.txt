@@ -1,0 +1,34 @@
+# Ahnoud Tech
+
+> Ahnoud Tech is a design and engineering studio in Dubai, United Arab Emirates, founded in 2024. Its in-house team, Kinomad Studio, covers design and engineering under one roof, so the brand and the build are carried by the same studio from identity to operations.
+
+- Website: https://ahnoudtech.com/
+- Email: hello@ahnoud.com
+- Phone: +971 50 483 9038 (also WhatsApp: https://wa.me/971504839038 and Telegram: https://t.me/+971504839038)
+- Address: Building 14, 18 Street - Zaa'beel Second - Za'abeel - Dubai - UAE
+- Time zone: Gulf Standard Time (GMT+4)
+- Founder: Hannan Amiri
+- Part of: Ahnoud (https://ahnoud.com)
+- Languages: English and Arabic
+- Works with clients worldwide
+
+## Team
+
+- [Kinomad Studio](https://kinomadstudio.com): brand identity, web design, 3D visualization & animation, web development, AI agents & automation, application DevOps
+
+## Purpose
+
+To give ambitious companies a brand and the systems behind it, designed and built as one, so what they launch looks right, works right, and keeps running.
+
+## Services
+
+- [Brand Identity](https://ahnoudtech.com/#services): naming, strategy, logo and identity systems, and brand guidelines
+- [Web Design](https://ahnoudtech.com/#services): websites and product interfaces, designed for clarity and conversion
+- [3D Visualization & Animation](https://ahnoudtech.com/#services): product renders, spatial visuals, and motion for launches and campaigns
+- [Web Development](https://ahnoudtech.com/#services): fast, accessible websites and web apps, built to scale
+- [AI Agents & Automation](https://ahnoudtech.com/#services): custom AI agents and automated workflows that take repetitive work off your team
+- [Application DevOps](https://ahnoudtech.com/#services): deployment, cloud infrastructure, monitoring, and care after launch
+
+## Optional
+
+- [Full studio summary](https://ahnoudtech.com/llms-full.txt)

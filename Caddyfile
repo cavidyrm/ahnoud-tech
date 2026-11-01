@@ -12,12 +12,19 @@
 		-Server
 	}
 
-	# hashed-free assets: revalidate the HTML, cache the rest hard
-	@immutable path /support.js /image-slot.js /images/* /site.webmanifest
+	# images are renamed when they change, so cache them hard;
+	# scripts and the manifest keep their names, so they revalidate (ETag) after a day
+	@immutable path /images/*
 	header @immutable Cache-Control "public, max-age=31536000, immutable"
+
+	@static path /support.js /image-slot.js /site.webmanifest
+	header @static Cache-Control "public, max-age=86400, must-revalidate"
 
 	@html path *.html /
 	header @html Cache-Control "public, max-age=0, must-revalidate"
+
+	@txt path /llms.txt /llms-full.txt /robots.txt
+	header @txt Content-Type "text/plain; charset=utf-8"
 
 	file_server
 

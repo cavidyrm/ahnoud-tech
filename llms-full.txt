@@ -1,0 +1,56 @@
+# Ahnoud Tech: full studio summary
+
+Ahnoud Tech is a design and engineering studio based in Dubai, United Arab Emirates. It was founded in 2024 by Hannan Amiri and is part of Ahnoud (https://ahnoud.com). Its slogan is "The brand and the build, together."
+
+## What Ahnoud Tech does
+
+Ahnoud Tech exists on one belief: the brand and the build should never be separated. One studio carries the work from a solid identity and a reasoned design to the software and infrastructure that carry them.
+
+Ambitious teams deserve a brand as considered as the systems behind it. Most companies have built something real, then split it across vendors who never talk to each other. That gap costs more than time. Design and engineering working side by side means what ships is one idea, carried end to end.
+
+## Team
+
+### Kinomad Studio
+Kinomad Studio is Ahnoud Tech's in-house team. It shapes how a company is seen and builds what runs underneath. Disciplines: brand identity, web design, 3D visualization and animation, web development, AI agents and automation, application DevOps. Website: https://kinomadstudio.com
+
+## Purpose
+
+To give ambitious companies a brand and the systems behind it, designed and built as one, so what they launch looks right, works right, and keeps running.
+
+## Services
+
+1. Brand Identity (Kinomad Studio): naming, voice, logo and identity systems.
+2. Web Design (Kinomad Studio): websites and digital interfaces.
+3. 3D Visualization & Animation (Kinomad Studio): 3D visuals, motion and animated storytelling.
+4. Web Development (Kinomad Studio): websites and web applications.
+5. AI Agents & Automation (Kinomad Studio): AI agents and automated workflows.
+6. Application DevOps (Kinomad Studio): deployment, infrastructure, monitoring and care after launch.
+
+## Studio approach: four stages
+
+1. Identity: naming, voice, and identity systems, the brand foundations everything else is built on.
+2. Design: interfaces, websites, and 3D storytelling that carry the identity into product.
+3. Build: web development, AI agents, and automation, engineered to the same standard.
+4. Operate: DevOps, infrastructure, and care after launch, so what we ship keeps running.
+
+## Working with Ahnoud Tech
+
+- Clients: worldwide, in English and Arabic.
+- How to start: email hello@ahnoud.com, message +971 50 483 9038 on WhatsApp or Telegram, or use "Start a project" on https://ahnoudtech.com/ (team and a short project description).
+- Typical reply time: within two working days.
+
+## Common questions
+
+- What does Ahnoud Tech do? A design and engineering studio taking a company from brand identity and web design through web development, AI agents and automation, to the infrastructure that keeps it running.
+- Where is Ahnoud Tech based? Building 14, 18 Street - Zaa'beel Second - Za'abeel - Dubai - UAE. Clients worldwide, in English and Arabic.
+- What is Kinomad Studio? Ahnoud Tech's in-house team, covering design and engineering.
+- Support after launch? Yes, through application DevOps.
+
+## Contact
+
+- Email: hello@ahnoud.com
+- Phone: +971 50 483 9038
+- WhatsApp: https://wa.me/971504839038
+- Telegram: https://t.me/+971504839038
+- Address: Building 14, 18 Street - Zaa'beel Second - Za'abeel - Dubai - UAE
+- Time zone: Gulf Standard Time (GMT+4)

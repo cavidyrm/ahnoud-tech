@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://ahnoudtech.com/</loc>
-    <lastmod>2026-07-31</lastmod>
+    <lastmod>2026-11-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
+    <image:image><image:loc>https://ahnoudtech.com/images/hero-brand-identity-desktop.webp</image:loc></image:image>
+    <image:image><image:loc>https://ahnoudtech.com/images/hero-web-design-desktop.webp</image:loc></image:image>
+    <image:image><image:loc>https://ahnoudtech.com/images/hero-engineering-desktop.webp</image:loc></image:image>
+    <image:image><image:loc>https://ahnoudtech.com/images/kinomad-studio-desktop.webp</image:loc></image:image>
+    <image:image><image:loc>https://ahnoudtech.com/images/cta-studio-desktop.webp</image:loc></image:image>
+    <image:image><image:loc>https://ahnoudtech.com/images/hannan-amiri.jpg</image:loc></image:image>
+    <image:image><image:loc>https://ahnoudtech.com/images/og-card.png</image:loc></image:image>
   </url>
 </urlset>

@@ -1,6 +1,27 @@
+# Ahnoud Tech
 User-agent: *
 Allow: /
 Disallow: /uploads/
-Disallow: /handoff/
+Disallow: /assets/
+
+# Search and AI answer engines (explicitly allowed)
+User-agent: Googlebot
+User-agent: Bingbot
+User-agent: Google-Extended
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Applebot
+User-agent: Applebot-Extended
+User-agent: DuckAssistBot
+User-agent: CCBot
+Allow: /
+Disallow: /uploads/
+Disallow: /assets/
 
 Sitemap: https://ahnoudtech.com/sitemap.xml

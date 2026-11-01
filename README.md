@@ -1,22 +1,24 @@
-# Ahnoud Tech, Landing Page
+# Ahnoud Tech, Landing Page · v1.0.0
 
-A single-page marketing site for **Ahnoud Tech**, a design-and-engineering studio built around one idea: the brand and the build should never be separated. Two in-house teams, **Kinomad Studio** (design) and **Draft Labs** (engineering), under one roof.
+Single-page marketing site for **Ahnoud Tech**, a design and engineering studio in Dubai. One in-house team, **Kinomad Studio**, covers brand identity, web design, 3D, web development, AI agents, and DevOps.
 
-The page is built as a **Design Component** (`.dc.html`): a self-contained HTML file with an inline template and a logic class. It opens directly in a browser — no build step, no bundler, no dependencies to install.
+The page is a **Design Component** (`.dc.html`): one HTML file with an inline template and a logic class, rendered by `support.js`. No build step, no dependencies.
+
+- Version: see `VERSION`; history in `CHANGELOG.md`
+- Live domain: `https://ahnoudtech.com`
+- Working with Claude Code: start with `CLAUDE.md`, then `HANDOFF.md`
+- Contact on the site: hello@ahnoud.com · +971 50 483 9038 (WhatsApp, Telegram)
 
 ---
 
 ## Quick start
 
-Open `Ahnoud Tech Landing.dc.html` in any modern browser, or serve the folder with any static server:
-
 ```bash
-# any static server works, e.g.
-npx serve .
-# then open the Landing file in the browser
+npx serve .        # any static server
+# open "Ahnoud Tech Landing.dc.html"
 ```
 
-A local server is recommended over `file://` so the fonts, logo, and stock images load without cross-origin restrictions.
+Use a local server rather than `file://` so fonts and images load.
 
 ---
 
@@ -24,107 +26,102 @@ A local server is recommended over `file://` so the fonts, logo, and stock image
 
 ```
 .
-├── Ahnoud Tech Landing.dc.html   # the page (copied to index.html in the image)
+├── Ahnoud Tech Landing.dc.html   # the page (becomes index.html in the image)
 ├── 404.html                      # brand-matched not-found page (noindex)
 ├── support.js                    # Design Component runtime (vendored, do not edit)
-├── image-slot.js                 # drag-and-drop image placeholder component
-├── robots.txt                    # crawler rules + sitemap pointer
-├── sitemap.xml                   # single-URL sitemap
-├── site.webmanifest              # PWA manifest (name, icons, theme)
-├── Caddyfile                     # static server config: 404s, caching, headers
-├── Dockerfile                    # caddy:alpine image, renames the .dc.html to index.html
-├── docker-compose.yml            # Traefik-routed service on the server
+├── image-slot.js                 # image component (supports alt + priority attributes)
+├── seo-static.html               # <noscript> copy of the page, injected at build
+├── robots.txt / sitemap.xml      # crawler rules, image sitemap
+├── llms.txt / llms-full.txt      # plain-text summary for AI answer engines
+├── site.webmanifest              # PWA manifest
+├── Caddyfile                     # static server: compression, caching, headers, 404
+├── Dockerfile                    # caddy:alpine image
+├── docker-compose.yml            # Traefik-routed service
 ├── .github/workflows/deploy.yml  # build, push to GHCR, redeploy over SSH
+├── CLAUDE.md                     # instructions for Claude Code (start here)
+├── HANDOFF.md                    # full design spec: sections, copy, tokens, motion
+├── VERSION / CHANGELOG.md
 ├── images/
-│   ├── logo.svg                  # wordmark logo
-│   ├── favicon-32.png / favicon-16.png    # generated from assets/ahnoud-logo-tile.png
-│   ├── apple-touch-icon.png      # 180x180
-│   ├── icon-192.png / icon-512.png   # manifest / Android icons
-│   └── og-card.png               # social share image (1200x630)
-├── assets/
-│   └── ahnoud-logo-tile.png      # icon master (source only, excluded from the image)
-├── uploads/                      # working references (excluded from the image)
-└── README.md
+│   ├── logo.svg
+│   ├── hero-brand-identity-{mobile,tablet,desktop}.webp
+│   ├── hero-web-design-{…}.webp
+│   ├── hero-engineering-{…}.webp
+│   ├── kinomad-studio-{…}.webp
+│   ├── cta-studio-{…}.webp
+│   ├── hannan-amiri.webp / .jpg  # founder avatar (webp on page, jpg for schema)
+│   ├── favicon-16/32.png, apple-touch-icon.png, icon-192/512.png
+│   └── og-card.png               # 1200×630 share image
+├── assets/                       # source files only (not shipped)
+│   ├── ahnoud-logo-tile.png      # icon master
+│   ├── logo-source.svg           # logo master
+│   └── hannan-amiri-original.jpg # founder photo master
 ```
 
-Everything in the repo root except `assets/`, `uploads/`, `*.md`, and the compose/CI files ships into the container (see `.dockerignore`). Favicons are pre-generated into `images/`, so the build needs no image tooling.
+`.dockerignore` keeps `assets/`, all `*.md` docs, and CI/compose files out of the image.
 
 ---
 
 ## Deploy
 
 ```bash
-docker build -t ghcr.io/cavidyrm/ahnoud-tech:latest .
+docker build -t ghcr.io/cavidyrm/ahnoud-tech:1.0.0 -t ghcr.io/cavidyrm/ahnoud-tech:latest .
 docker run --rm -p 8080:80 ghcr.io/cavidyrm/ahnoud-tech:latest   # smoke test on :8080
 ```
 
-Pushing to `main` runs `.github/workflows/deploy.yml`: it builds the image, pushes it to GHCR, then SSHes to the server and runs `docker compose pull && docker compose up -d` in `APP_DIR`. Required secrets: `SERVER_HOST`, `SERVER_USER`, `SERVER_SSH_KEY`, `GHCR_TOKEN`, `APP_DIR`.
+Pushing to `main` runs `.github/workflows/deploy.yml`: build, push to GHCR, SSH to the server, `docker compose pull && docker compose up -d` in `APP_DIR`. Secrets: `SERVER_HOST`, `SERVER_USER`, `SERVER_SSH_KEY`, `GHCR_TOKEN`, `APP_DIR`.
 
-The `Dockerfile` renames `Ahnoud Tech Landing.dc.html` to `index.html` and installs `Caddyfile` at `/etc/caddy/Caddyfile`, which handles gzip/zstd compression, immutable caching for `support.js` / `image-slot.js` / `images/`, revalidated HTML, security headers, and rewrites any 404 to `404.html`. Traefik terminates TLS and redirects `http` and `www` to `https://ahnoudtech.com`.
+The Dockerfile renames the page to `index.html`, injects `seo-static.html` after `<body>`, and installs the Caddyfile. Caddy caches `images/*` for a year (rename files when they change), revalidates scripts and the manifest daily, revalidates HTML on every request, and serves `404.html` for missing paths. Traefik terminates TLS.
+
+**Release a new version:** bump `VERSION`, the `<meta name="version">` in the page, and add a `CHANGELOG.md` entry; tag the commit `vX.Y.Z`.
 
 ---
 
 ## Sections
 
 | # | Section | Notes |
-|---|---------|-------|
-| 1 | **Hero** | Three stacked, sticky frames (Branding → Design → Engineering) that scale up from below with layered image parallax. |
-| 2 | **About Us** | Word-by-word reveal on scroll; a rotating stat carousel. Background shifts light → dark through this stretch. |
-| 3 | **Teams** | Kinomad Studio and Draft Labs, each with disciplines and a parallaxing visual. Kinomad Studio links out. |
-| 4 | **Services** | Six-row list with a left-to-right invert-on-hover fill. |
-| 5 | **Studio Approach** | Four-stage accordion (Identity / Design / Build / Operate) styled as the hero's cream strip bars. |
-| 6 | **CTA** | Pinned full-bleed call to action with a sliding last line. |
-| 7 | **Footer** | Reveals beneath the page as you scroll; big nav, contact, and an interactive halftone strip that reacts to the cursor. |
+|---|---|---|
+| 1 | Hero | Three sticky frames (Identity → Design → Engineering) with parallax. Contains the page `h1`. |
+| 2 | About Us | Caption, word-by-word scroll reveal, purpose line, founder. |
+| 3 | Studio | Kinomad Studio, six disciplines, image wipe-in; links to kinomadstudio.com. |
+| 4 | Services | Six rows with one-line descriptions and an invert-on-hover fill. Background fades light → dark here. |
+| 5 | Studio Approach | Statement, stat carousel, four-stage accordion. |
+| 6 | FAQ | Six questions; mirrored in FAQPage schema. |
+| 7 | CTA | Pinned call to action, opens the Start a project modal. |
+| 8 | Footer | Nav, email/phone/WhatsApp/Telegram, address, Visit Ahnoud.com, Dubai clock, interactive halftone strip. |
 
 ---
 
 ## Tweaks (editor props)
 
-The Design Component exposes a few editable props (shown as a Tweaks panel in the editor, or set via the `data-props` attribute):
-
-- **Device preview** — Desktop / Tablet / Mobile responsive preview.
-- **Accent · Ink** — Kinomad Studio accent color.
-- **Accent · Draft** — Draft Labs accent color.
-- **Contact email** — used across the nav, footer, and CTA `mailto:` links.
-- **Save as default** — snapshots the current tweak values to `localStorage` so they persist as defaults on the next visit.
+- **Device** — Fit screen (shipped page) / Desktop / Tablet / Mobile preview.
+- **Accent · Ink** (default `#be5d09`) and **Accent · Draft** (default `#2d8ff0`).
+- **Contact email** — default `hello@ahnoud.com`.
+- **Form endpoint** — POST URL for enquiries (e.g. Formspree). Empty = opens the visitor's email app.
+- **Save as default** — stores tweak values in `localStorage` (editor convenience).
 
 ---
 
-## Design notes
+## SEO / AEO / GEO
 
-- **Type:** [General Sans](https://www.fontshare.com/fonts/general-sans) (via Fontshare) for display and body; a monospace stack for micro-labels.
-- **Palette:** near-black `#0c0d10` and warm off-white `#e9e7e1`, with two configurable accents. The mid-page light stretch inverts foreground/background on a smoothstep ramp so text always keeps contrast.
-- **Motion:** scroll-driven parallax and the halftone field are written directly to element styles inside a single scroll/RAF loop for smoothness; UI state (menu, accordion, stat carousel) is React-style state on the logic class.
-- **Cursor:** a small delayed dot that inverts over light and dark areas (fine-pointer devices only).
+- **SEO:** title, ≤160-char description, canonical, hreflang (en, x-default), geo meta, Open Graph/Twitter, favicons, manifest, preloaded hero image, semantic headings, alt text on every image, image sitemap.
+- **AEO:** JSON-LD `@graph` with Organization (founder with photo, address, phone, languages en/ar, Kinomad Studio sub-organization), ProfessionalService with six Services, WebSite, WebPage, FAQPage. Every fact is visible on the page.
+- **GEO:** `llms.txt`, `llms-full.txt`, and the `<noscript>` copy; `robots.txt` allows the major search and AI crawlers.
 
----
+**Keep in sync when editing copy:** the page, `seo-static.html`, `llms.txt`, `llms-full.txt`, and the JSON-LD block.
 
-## Images
-
-The hero, team, founder, and CTA visuals are pulled from [Unsplash](https://unsplash.com) via URL as placeholders. To use your own art, drop images onto the slots in the editor (each `image-slot` persists its drop), or replace the `src` URLs in the template. The only bundled raster asset is `images/logo.svg`.
-
----
-
-## SEO
-
-In the page head: title, meta description, canonical, robots directives (`max-image-preview:large`), Open Graph and Twitter cards with `images/og-card.png` plus alt text, theme color, color-scheme, PWA/apple app tags, the full favicon set, and a JSON-LD `@graph` (Organization with Kinomad Studio and Draft Labs as sub-organizations, WebSite, WebPage, and a ProfessionalService OfferCatalog of all six services). The hero carries a visually-hidden `h1`; sections use `h2`/`h3`. `robots.txt` and `sitemap.xml` are at the root.
-
-**Before launch, the developer should:**
-
-1. Replace `https://ahnoudtech.com` in the canonical, OG/Twitter, sitemap, and JSON-LD if the production domain differs.
-2. Fill the JSON-LD `sameAs` array with the studio's social profile URLs.
-3. Replace the Unsplash placeholder images with optimized, self-hosted assets (WebP/AVIF, sized to the layout) and credit or license them properly.
-4. All page copy is inline in the HTML, so crawlers see the content without JS; for maximum coverage consider a prerender snapshot at build time.
-5. Verify `404.html` is served for unknown paths (the `Caddyfile` handles this) and submit the sitemap in Search Console.
+**Still to do**
+1. Set `formEndpoint` so enquiries arrive without the email app.
+2. Replace the stock hero/studio/CTA photos with your own work (keep the file names or update them in the page and sitemap).
+3. Submit the sitemap in Google Search Console and Bing; claim a Google Business Profile at the Za'abeel address.
+4. Add an Arabic page later, then add `hreflang="ar"`.
+5. Confirm the Telegram number is discoverable by phone number, or switch to a username link.
 
 ---
 
-## Tech
+## Image credits
 
-- No framework install, no build. The `.dc.html` is rendered by `support.js` (the Design Component runtime) — treat it as vendored; don't edit it.
-- `image-slot.js` provides the `<image-slot>` drag-and-drop placeholder used for every photo.
-- `404.html` is a standalone page (plain HTML/CSS/JS) that mirrors the site's aesthetic and reuses the halftone effect.
+Hero, studio, and CTA photos are from [Unsplash](https://unsplash.com) (free licence), re-encoded as WebP and self-hosted. Founder photo supplied by Ahnoud Tech.
 
 ---
 
-© 2026 Ahnoud Tech. Design and Engineering.
+© 2024–2026 Ahnoud Tech.

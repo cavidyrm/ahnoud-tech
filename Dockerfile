@@ -5,6 +5,8 @@ WORKDIR /srv
 COPY . .
 
 RUN mv "Ahnoud Tech Landing.dc.html" index.html \
+ && sed -i '/^<body>/r seo-static.html' index.html \
+ && rm seo-static.html \
  && mv Caddyfile /etc/caddy/Caddyfile
 
 EXPOSE 80

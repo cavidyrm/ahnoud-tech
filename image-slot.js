@@ -227,7 +227,7 @@
 
   class ImageSlot extends HTMLElement {
     static get observedAttributes() {
-      return ['shape', 'radius', 'mask', 'fit', 'position', 'placeholder', 'src', 'id'];
+      return ['shape', 'radius', 'mask', 'fit', 'position', 'placeholder', 'src', 'id', 'alt', 'priority'];
     }
 
     constructor() {
@@ -255,11 +255,13 @@
       this._frame = root.querySelector('.frame');
       this._ring = root.querySelector('.ring');
       this._img = root.querySelector('.frame img');
+      this._img.loading = 'lazy'; this._img.decoding = 'async';
       this._empty = root.querySelector('.empty');
       this._cap = root.querySelector('.cap');
       this._sub = root.querySelector('.sub');
       this._spill = root.querySelector('.spill');
       this._ghost = root.querySelector('.ghost');
+      if (this._ghost) { this._ghost.loading = 'lazy'; this._ghost.decoding = 'async'; }
       this._err = null;
       this._input = root.querySelector('input');
       this._depth = 0;
@@ -268,7 +270,7 @@
       this._subFn = () => this._render();
       // Shadow-DOM listeners live with the shadow DOM — bound once here so
       // disconnect/reconnect (e.g. React remount) doesn't stack handlers.
-      this._empty.addEventListener('click', () => this._input.click());
+      this._empty.addEventListener('click', () => { if (this.hasAttribute('data-editable')) this._input.click(); });
       root.addEventListener('click', (e) => {
         const act = e.target && e.target.getAttribute && e.target.getAttribute('data-act');
         if (act === 'replace') { this._exitReframe(true); this._input.click(); }
@@ -446,6 +448,7 @@
     // handleEvent — one listener object for all four drag events keeps the
     // add/remove symmetric and the depth counter correct.
     handleEvent(e) {
+      if (!this.hasAttribute('data-editable')) return;
       if (e.type === 'dragenter' || e.type === 'dragover') {
         // Without preventDefault the browser never fires 'drop'.
         e.preventDefault();
@@ -618,6 +621,8 @@
       this._cap.textContent = this.getAttribute('placeholder') || 'Drop an image';
       // Toggle via style.display — the [hidden] attribute alone loses to
       // the display:flex / display:block rules in the stylesheet above.
+      this._img.alt = this.getAttribute('alt') || '';
+      if (this.hasAttribute('priority')) { this._img.loading = 'eager'; this._img.fetchPriority = 'high'; }
       if (url) {
         if (this._img.getAttribute('src') !== url) {
           this._img.src = url;
